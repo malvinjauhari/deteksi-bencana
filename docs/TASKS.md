@@ -39,8 +39,8 @@
 - [x] Buat dashboard summary berdasarkan data lokal aktual.
 - [x] Buat feed dengan search, filter, sort, loading, empty, dan error states.
 - [x] Buat detail bencana dengan rincian faktor, kelengkapan data, dan mitigasi.
-- [ ] Integrasikan Leaflet marker dan popover yang aksesibel.
-- [ ] Sediakan fallback daftar teks/koordinat saat peta atau tile gagal.
+- [x] Integrasikan Leaflet marker dan popover yang aksesibel.
+- [x] Sediakan fallback daftar teks/koordinat saat peta atau tile gagal.
 - [x] Persist serta validasi filter/sort pilihan pengguna.
 
 ## Fase 4 — Demo Voting, Campaign & Data Controls

@@ -4,9 +4,9 @@ Prototipe client-side untuk simulasi analisis urgensi, validasi komunitas, dan m
 
 ## Status
 
-Fase 1 dan Fase 2 tersedia: fondasi React/Vite/TypeScript, responsive application shell, design system, light/dark/system theme, landing page beranimasi, serta layer data lokal.
+Fase 1–3 tersedia: fondasi React/Vite/TypeScript, responsive application shell, design system, light/dark/system theme, landing page beranimasi, layer data lokal, serta dashboard dan peta simulasi.
 
-Fase 2 menambahkan Dexie database `siaga-nusantara` (schema v1), fixture simulasi, seed idempoten, dan mesin skor deterministik berbobot 25/25/20/15/15. Dashboard menampilkan ringkasan, pencarian, filter, dan status skor sementara dari data lokal sebenarnya; halaman detail menampilkan rincian faktor dan langkah mitigasi. Peta Leaflet, voting demo, dan campaign belum diimplementasikan.
+Dexie database `siaga-nusantara` (schema v1), fixture simulasi, seed idempoten, dan mesin skor deterministik berbobot 25/25/20/15/15 menyokong ringkasan, pencarian, filter jenis/status, serta pengurutan. Dashboard dan detail menampilkan rincian analisis, mitigasi, serta peta Leaflet/OpenStreetMap dengan marker keyboard-accessible dan daftar koordinat. Tile peta memerlukan jaringan; kegagalannya tidak menyembunyikan analisis. Voting demo, evaluasi campaign, ekspor, dan reset melalui UI akan dibangun pada Fase 4.
 
 ## Prasyarat
 

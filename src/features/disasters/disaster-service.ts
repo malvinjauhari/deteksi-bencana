@@ -129,14 +129,21 @@ function sortAndFilter(
     return haystack.includes(query);
   });
 
-  const scoreOf = ({ analysis }: DisasterListItem) => analysis?.urgency_score ?? -1;
+  // Unscored events always come last for either urgency direction.
+  const compareUrgency = (a: DisasterListItem, b: DisasterListItem, direction: 1 | -1) => {
+    const aScore = a.analysis?.urgency_score;
+    const bScore = b.analysis?.urgency_score;
+    if (aScore === null || aScore === undefined) return 1;
+    if (bScore === null || bScore === undefined) return -1;
+    return (aScore - bScore) * direction;
+  };
 
   return filtered.sort((a, b) => {
     switch (filters.sort) {
       case "urgency_desc":
-        return scoreOf(b) - scoreOf(a);
+        return compareUrgency(a, b, -1);
       case "urgency_asc":
-        return scoreOf(a) - scoreOf(b);
+        return compareUrgency(a, b, 1);
       case "occurred_desc":
         return b.disaster.occurred_at.localeCompare(a.disaster.occurred_at);
       case "occurred_asc":

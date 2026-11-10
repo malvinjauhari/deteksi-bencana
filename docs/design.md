@@ -38,8 +38,9 @@ Berdasarkan referensi visual dari `image_e3b45e.jpg` dan pendekatan desain minim
 * **Motion:** animasi masuk berjenjang (stagger), parallax gambar halus saat scroll, garis radar berputar lambat, scroll reveal per seksi, dan indikatorscroll. Semua non-esensial.
 * **Motion Chart:** animasi dekoratif memakai `motion` (framer-motion) melalui `LazyMotion`/`domAnimation` agar runtime di-code-split; komponen `m` dipakai di dalam `MotionProvider`.
 * **Dashboard:** summary cards, filter/search, disaster feed, dan peta. Pada mobile, feed dan peta tidak saling menutupi.
-* **Dashboard (Fase 2):** empat summary card dari data aktual, pencarian, filter jenis, filter urutan, dan grid disaster card. State loading, empty, error, serta "penyimpanan lokal tidak tersedia" memakai StatusState.
-* **Disaster Detail (Fase 2):** badge status, tiga metrik ringkas (skor, kelengkapan, waktu), kartu ringkasan analisis, rincian lima faktor dengan bar kontribusi, dan daftar langkah mitigasi bernomor.
+* **Dashboard (Fase 2–3):** empat summary card dari data aktual, pencarian, filter jenis/status, filter urutan, peta, dan grid disaster card. State loading, empty, error, serta "penyimpanan lokal tidak tersedia" memakai StatusState.
+* **Disaster Detail (Fase 2–3):** badge status, tiga metrik ringkas (skor, kelengkapan, waktu), kartu ringkasan analisis, peta satu lokasi, rincian lima faktor dengan bar kontribusi, dan daftar langkah mitigasi bernomor.
+* **Disaster Map:** marker bulat mengikuti severity dan dapat dibuka dengan keyboard. Scroll-wheel zoom dinonaktifkan; daftar judul, lokasi, severity, dan koordinat selalu tersedia di bawah peta. Kegagalan tile menampilkan alert tanpa mengganti konten analisis.
 * **Disaster Card:** jenis, lokasi, waktu, skor/severity, kelengkapan data, status campaign, dan aksi detail.
 * **Score Breakdown:** nilai dan bobot tiap faktor; tampilkan **Skor Sementara** bila data tidak lengkap dan **Belum Dinilai** bila skor `null`. Faktor kosong ditulis "Data tidak tersedia" dan bar kontribusinya kosong, bukan nol.
 * **Severity Badge:** label Kritis/Waspada/Rendah/Belum Nilai memakai warna dan teks, sehingga status tidak bergantung pada warna saja.
@@ -70,5 +71,8 @@ Berdasarkan referensi visual dari `image_e3b45e.jpg` dan pendekatan desain minim
 - [x] Keadaan "penyimpanan lokal tidak tersedia" dibedakan dari "data kosong" agar pengguna tidak salah mengira data hilang.
 - [x] Foto hero dekoratif memakai `alt=""`, dengan overlay gelap yang menjaga contrast teks.
 - [x] `prefers-reduced-motion` menonaktifkan animasi dekoratif tanpa menyembunyikan konten.
+- [x] Marker peta dapat dibuka dengan keyboard dan memiliki alternatif daftar koordinat yang selalu terlihat.
+- [x] Kegagalan tile peta ditampilkan sebagai alert tanpa menyembunyikan feed atau analisis.
+- [x] Dashboard dan peta tidak mengalami horizontal overflow pada automated check 320/768/1440 px.
 - [x] Tidak ada elemen donasi, payment, live AI, atau verifikasi identitas nyata.
 - [ ] Audit manual responsif 320 px/tablet/desktop, contrast, dan screen reader pada Fase 5.

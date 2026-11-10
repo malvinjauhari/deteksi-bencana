@@ -9,7 +9,7 @@ export function isTheme(value: unknown): value is Theme {
 }
 
 export function readTheme(storage?: SafeStorage): Theme {
-  const value = storage?.readString(STORAGE_KEYS.theme) ?? null;
+  const value = (storage ?? safeStorage).readString(STORAGE_KEYS.theme);
   return isTheme(value) ? value : "system";
 }
 

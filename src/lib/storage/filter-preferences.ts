@@ -11,7 +11,7 @@ export const DEFAULT_FILTERS: DisasterFilters = {
 };
 
 export function readFilters(storage?: SafeStorage): DisasterFilters {
-  const value = storage?.readJson(STORAGE_KEYS.filters, (raw) => raw) ?? null;
+  const value = (storage ?? safeStorage).readJson(STORAGE_KEYS.filters, (raw) => raw);
   const parsed = disasterFiltersSchema.safeParse(value);
   return parsed.success ? parsed.data : DEFAULT_FILTERS;
 }
@@ -24,7 +24,7 @@ export function writeFilters(
 }
 
 export function readActiveDemoProfileId(storage?: SafeStorage): string | null {
-  return storage?.readString(STORAGE_KEYS.activeDemoProfileId) ?? null;
+  return (storage ?? safeStorage).readString(STORAGE_KEYS.activeDemoProfileId);
 }
 
 export function writeActiveDemoProfileId(

@@ -24,8 +24,9 @@ Nama berikut adalah kontrak modul TypeScript, bukan endpoint jaringan.
 | Fungsi | Perilaku |
 |---|---|
 | `ensureSeeded()` | Menjalankan seed bila metadata versi belum cocok. Idempoten. |
-| `listDisasters(filters)` | Membaca store, memetakan analysis per disaster, lalu menerapkan filter dan sort. |
+| `listDisasters(filters)` | Membaca store, memetakan analysis per disaster, lalu menerapkan pencarian, filter jenis/status, dan sort. |
 | `getDisasterDetail(id)` | Mengembalikan disaster beserta analysis, atau `null` bila ID tidak dikenal. |
+| `DisasterMapPanel` | Lazy boundary untuk peta; menerima hasil `listDisasters` atau satu hasil detail tanpa akses storage tambahan. |
 
 Kontrak penting:
 
@@ -33,6 +34,8 @@ Kontrak penting:
 - Analysis dihitung ulang saat dibaca sehingga kenaikan versi mesin skor tidak menampilkan skor lama.
 - Kegagalan storage dipetakan ke `StorageUnavailableError`; kegagalan lain diteruskan apa adanya.
 - `listDisasters` menerima `DisasterFilters` yang sudah divalidasi Zod di lapisan storage.
+- `readTheme`, `readFilters`, dan `readActiveDemoProfileId` menggunakan `safeStorage` browser secara default; adapter eksplisit tetap tersedia untuk test.
+- `DisasterMapPanel` tidak melakukan fetch data domain. Hanya tile OpenStreetMap yang memerlukan jaringan; koordinat dan analisis berasal dari item yang diberikan.
 
 ## Aturan Operasi
 

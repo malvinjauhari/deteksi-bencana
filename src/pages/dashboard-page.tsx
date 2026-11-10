@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { StatusState } from "@/components/ui/status-state";
 import { DisasterCard } from "@/features/disasters/disaster-card";
+import { DisasterMapPanel } from "@/features/disaster-map/disaster-map-panel";
 import {
   listDisasters,
   StorageUnavailableError,
@@ -140,7 +141,7 @@ export function DashboardPage() {
       )}
 
       <form
-        className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
+        className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-5"
         onSubmit={(event) => event.preventDefault()}
         role="search"
         aria-label="Filter kejadian simulasi"
@@ -178,6 +179,23 @@ export function DashboardPage() {
           </Select>
         </div>
         <div>
+          <label htmlFor="filter-status" className="text-sm font-medium">
+            Status
+          </label>
+          <Select
+            id="filter-status"
+            className="mt-2"
+            value={filters.status}
+            onChange={(event) =>
+              updateFilters({ status: event.target.value as DisasterFilters["status"] })
+            }
+          >
+            <option value="all">Semua status</option>
+            <option value="monitoring">Pemantauan</option>
+            <option value="campaign">Campaign</option>
+          </Select>
+        </div>
+        <div>
           <label htmlFor="filter-sort" className="text-sm font-medium">
             Urutan
           </label>
@@ -196,6 +214,12 @@ export function DashboardPage() {
           </Select>
         </div>
       </form>
+
+      {!isInitialLoad && !isStale && result?.status === "ready" && items.length > 0 && (
+        <div className="mt-10">
+          <DisasterMapPanel items={items} />
+        </div>
+      )}
 
       <div className="mt-10">
         {isInitialLoad && (
@@ -255,18 +279,21 @@ export function DashboardPage() {
         )}
 
         {!isInitialLoad && !isStale && result?.status === "ready" && items.length > 0 && (
-          <ul className="grid gap-5 md:grid-cols-2">
-            {items.map((item) => (
-              <li key={item.disaster.id}>
-                <DisasterCard item={item} />
-              </li>
-            ))}
-          </ul>
+          <>
+            <h2 className="mb-5 text-xl font-semibold">Daftar kejadian</h2>
+            <ul aria-label="Daftar kejadian simulasi" className="grid gap-5 md:grid-cols-2">
+              {items.map((item) => (
+                <li key={item.disaster.id}>
+                  <DisasterCard item={item} />
+                </li>
+              ))}
+            </ul>
+          </>
         )}
       </div>
 
       <p className="mt-10 text-sm text-muted-foreground">
-        Data simulasi lokal. Untuk keadaan darurat, ikuti arahan FEMA, BNPB, BMKG,
+        Data simulasi lokal. Untuk keadaan darurat, ikuti arahan BPBD, BNPB, BMKG,
         dan otoritas setempat.{" "}
         <Link to="/" className="font-medium text-info underline underline-offset-4">
           Kembali ke beranda

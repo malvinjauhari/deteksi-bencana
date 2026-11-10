@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { createSafeStorage } from "@/lib/storage/safe-storage";
 import {
   DEFAULT_FILTERS,
@@ -125,10 +125,15 @@ describe("preferences", () => {
     expect(readActiveDemoProfileId(storage)).toBeNull();
   });
 
-  it("uses the browser localStorage by default", () => {
-    const spy = vi.spyOn(Storage.prototype, "setItem");
-    writeTheme("light");
-    expect(spy).toHaveBeenCalledWith(STORAGE_KEYS.theme, "light");
-    spy.mockRestore();
+  it("uses browser localStorage for default reads and writes", () => {
+    writeTheme("dark");
+    expect(readTheme()).toBe("dark");
+
+    const filters = { ...DEFAULT_FILTERS, status: "campaign" as const };
+    writeFilters(filters);
+    expect(readFilters()).toEqual(filters);
+
+    writeActiveDemoProfileId("demo-user-warga");
+    expect(readActiveDemoProfileId()).toBe("demo-user-warga");
   });
 });

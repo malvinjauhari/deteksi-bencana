@@ -17,15 +17,17 @@ Struktur kanonis berada di `PROJECT_BLUEPRINT.md`. Pemisahan dilakukan berdasark
 
 ## Status Bootstrap
 
-Fondasi React/Vite/TypeScript, Tailwind, shadcn/ui config, router, dan folder domain telah tersedia. Entry point menggunakan `src/main.tsx` → `App.tsx` → `app/router.tsx` → `components/layout/app-shell.tsx`. Route awal tersedia tetapi dashboard/detail masih placeholder. Dexie dan Leaflet sudah menjadi dependency, belum dipakai hingga fase implementasinya.
+Fondasi React/Vite/TypeScript, Tailwind, shadcn/ui config, router, dan folder domain telah tersedia. Entry point menggunakan `src/main.tsx` → `App.tsx` → `app/router.tsx` → `components/layout/app-shell.tsx`. Dashboard dan detail telah terhubung ke data lokal serta peta simulasi.
 
 Path alias `@/*` menunjuk ke `src/*` dan dikonfigurasi pada Vite serta TypeScript. Testing memakai Vitest + jsdom; CI menjalankan `npm ci`, lint, type-check, test, dan build dengan Node 22.
 
-Fase 1 menambahkan `ThemeProvider` melalui `components/providers/`, safe theme adapter di `lib/storage/preferences.ts`, Radix Dialog, semantic CSS tokens, dan komponen UI inti. Font DM Sans/Playfair Display dibundel melalui Fontsource sehingga tidak membutuhkan Google Fonts saat runtime. Root layout menangani hash scroll dan scroll restoration. Database dan peta tetap belum diimplementasikan.
+Fase 1 menambahkan `ThemeProvider` melalui `components/providers/`, safe theme adapter, Radix Dialog, semantic CSS tokens, dan komponen UI inti. Font DM Sans/Playfair Display dibundel melalui Fontsource sehingga tidak membutuhkan Google Fonts saat runtime. Root layout menangani hash scroll dan scroll restoration.
 
 Motion memakai `motion` (framer-motion) melalui `MotionProvider` berbasis `LazyMotion`/`domAnimation`; komponen animasi memakai `m` agar runtime di-code-split. `Reveal` di `components/motion/reveal.tsx` menangani scroll reveal generik. Vite memisahkan `motion` dan `leaflet` melalui `manualChunks`.
 
 Fase 2 menambahkan lapisan data lokal. Entry point data tetap `src/main.tsx` → `App.tsx` → `app/router.tsx`, tetapi `app/routes.tsx` mendefinisikan rute dan `app/route-elements.tsx` memuat dashboard serta detail secara lazy. Modul scoring di `src/features/scoring/` tidak bergantung pada IndexedDB maupun DOM. Modul database di `src/lib/db/` (schema, fixture, repository, seed) hanya diakses lewat `src/features/disasters/disaster-service.ts`. Validasi runtime memakai Zod di `src/lib/validation/schemas.ts`. Preferensi dipecah menjadi `lib/storage/storage-keys.ts` (kunci), `theme-preferences.ts` (tanpa Zod), dan `filter-preferences.ts` (dengan Zod) agar bundle landing page tidak menarik pustaka validasi. Vite memisahkan `dexie` dan `zod` melalui `manualChunks`.
+
+Fase 3 menambahkan `src/features/disaster-map/` dengan `disaster-map-panel.tsx` sebagai lazy boundary dan `disaster-map.tsx` sebagai adapter Leaflet. UI meneruskan item hasil service ke peta sehingga adapter tidak berkomunikasi dengan IndexedDB. Marker dan koordinat berasal dari sumber item yang sama dengan feed; perubahan filter hanya memperbarui layer marker. Daftar koordinat dirender React secara semantik dan tidak bergantung pada keberhasilan tile OpenStreetMap. Pembacaan preferensi default memakai `safeStorage` browser, sementara adapter eksplisit tetap dapat diinjeksikan pada test.
 
 ## Aliran Data
 

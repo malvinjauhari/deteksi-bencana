@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { StatusState } from "@/components/ui/status-state";
 import { ScoreBreakdown } from "@/features/scoring/score-breakdown";
+import { DisasterMapPanel } from "@/features/disaster-map/disaster-map-panel";
 import { SeverityBadge } from "@/features/scoring/severity-badge";
 import {
   getDisasterDetail,
@@ -207,6 +208,10 @@ function ReadyDetail({ detail }: { detail: DisasterDetail }) {
           </p>
         </CardContent>
       </Card>
+
+      <div className="mt-8">
+        <DisasterMapPanel items={[{ disaster, analysis }]} />
+      </div>
 
       <div className="mt-8">
         <ScoreBreakdown analysis={analysis} />

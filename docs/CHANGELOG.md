@@ -1,6 +1,17 @@
 # Changelog
 
-## [Unreleased] — Phase 2 Local Data & Deterministic Scoring
+## [Unreleased] — Phase 3 Dashboard, Feed & Map
+
+- Menambahkan peta Leaflet/OpenStreetMap pada dashboard dan detail dengan marker berwarna menurut severity, popup berbasis DOM yang aman, serta lazy-loaded map boundary.
+- Marker dapat difokuskan dan dibuka dengan keyboard; scroll-wheel zoom dinonaktifkan agar peta tidak menjebak scroll halaman, dan reduced-motion menonaktifkan transisi peta non-esensial.
+- Menambahkan daftar lokasi/koordinat yang selalu terlihat sebagai alternatif teks. Kegagalan tile menampilkan `role="alert"` tanpa menyembunyikan feed, detail, atau analisis.
+- Menambahkan filter status campaign dan sinkronisasi jumlah marker serta daftar koordinat dengan seluruh filter aktif.
+- Memperbaiki pembacaan preferensi default agar tema, filter, dan profil demo menggunakan `safeStorage` browser ketika adapter tidak diberikan; menambahkan regression test untuk baca/tulis default.
+- Memastikan kejadian tanpa skor selalu berada di urutan terakhir pada pengurutan urgensi naik maupun turun.
+- Menambahkan 7 unit test service/filter/sort/detail dan 6 e2e tests untuk peta, popup keyboard, tile gagal, sinkronisasi filter, serta layout 320 px/tablet/desktop.
+- Validasi: lint, strict type-check, 60 unit tests, 20 Playwright e2e tests, production build, dan screenshot review dashboard/detail/mobile lulus.
+
+## Phase 2 Local Data & Deterministic Scoring
 
 - Menambahkan tipe domain lengkap (`Disaster`, `Analysis`, `DemoUser`, `Vote`, `FactorBreakdown`, filter) di `src/types/disaster.ts` beserta validator runtime Zod di `src/lib/validation/schemas.ts`.
 - Menambahkan Dexie database `siaga-nusantara` schema v1 dengan store `disasters`, `analyses`, `demoUsers`, `votes`, dan `metadata`, termasuk index unik `[disaster_id+demo_user_id]`.
