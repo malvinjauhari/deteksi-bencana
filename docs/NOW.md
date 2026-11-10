@@ -2,7 +2,7 @@
 
 ## Fase 1 Selesai
 
-Design tokens, light/dark/system theme, floating navigation, mobile dialog, komponen UI inti, landing page, status states, hash scrolling, serta sembilan routing/theme tests telah tersedia dan tervalidasi. Dashboard/detail tetap empty states yang jujur.
+Design tokens, light/dark/system theme, floating navigation, mobile dialog, komponen UI inti, landing page dengan hero jumbotron beranimasi, status states, hash scrolling, 9 unit tests, dan 6 Playwright e2e tests telah tersedia dan tervalidasi. Dashboard/detail tetap empty states yang jujur.
 
 ## Unit Kerja Berikutnya: Fase 2 — Local Data & Scoring
 

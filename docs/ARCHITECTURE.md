@@ -23,6 +23,8 @@ Path alias `@/*` menunjuk ke `src/*` dan dikonfigurasi pada Vite serta TypeScrip
 
 Fase 1 menambahkan `ThemeProvider` melalui `components/providers/`, safe theme adapter di `lib/storage/preferences.ts`, Radix Dialog, semantic CSS tokens, dan komponen UI inti. Font DM Sans/Playfair Display dibundel melalui Fontsource sehingga tidak membutuhkan Google Fonts saat runtime. Root layout menangani hash scroll dan scroll restoration. Database dan peta tetap belum diimplementasikan.
 
+Motion memakai `motion` (framer-motion) melalui `MotionProvider` berbasis `LazyMotion`/`domAnimation`; komponen animasi memakai `m` agar runtime di-code-split. `Reveal` di `components/motion/reveal.tsx` menangani scroll reveal generik. Vite memisahkan `motion` dan `leaflet` melalui `manualChunks`.
+
 ## Aliran Data
 
 ```text

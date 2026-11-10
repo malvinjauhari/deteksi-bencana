@@ -1,6 +1,16 @@
 # Changelog
 
-## [Unreleased] — Phase 1 Design System & Shell
+## [Unreleased] — Hero Motion & Image Backdrop
+
+- Menambahkan hero jumbotron dengan foto Unsplash lokal (WebP, dekoratif `alt=""`) plus overlay gradien berlapis untuk menjaga contrast teks.
+- Menambahkan animasi halus: parallax gambar saat scroll, stagger masuk, garis radar berputar lambat, scroll reveal per seksi, hover lift pada feature card, dan indikatorscroll.
+- Menambahkan `MotionProvider` berbasis `LazyMotion`/`domAnimation` dengan komponen `m` agar runtime animasi di-code-split; bundle utama turun dari 560 kB ke 404 kB dan motion terpecah menjadi chunk 106 kB.
+- Menambahkan `manualChunks` Vite untuk `motion` dan `leaflet`; peringatan ukuran bundle hilang.
+- Menonaktifkan semua animasi dekoratif pada `prefers-reduced-motion: reduce` dengan konten tetap tampil pada kondisi akhir.
+- Menambahkan Playwright + 6 e2e tests: hero image load, animasi visible, reduced motion, scroll reveal, dark mode, dan 320 px tanpa horizontal overflow; CI kini menjalankan e2e.
+- Validasi: lint, strict type-check, 9 unit tests, 6 e2e tests, production build, screenshot review light/dark/mobile, dan npm audit 0 vulnerability.
+
+## Phase 1 Design System & Shell
 
 - Menambahkan semantic color/radius/shadow tokens, dark mode, DM Sans/Playfair Display self-hosted, dan reduced-motion behavior.
 - Menambahkan ThemeProvider, safe theme storage, system-theme subscription, theme-color sync, dan anti-theme-flash bootstrap.

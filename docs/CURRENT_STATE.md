@@ -4,12 +4,15 @@
 
 - **Fase:** Fase 1 design system dan application shell selesai; siap memulai Fase 2 local data/scoring.
 - **Fondasi:** React 19 + Vite 7 + TypeScript strict, Tailwind CSS 4, shadcn/ui/Radix, React Router, Dexie, dan Leaflet.
-- **UI:** Semantic light/dark tokens, self-hosted DM Sans/Playfair Display, floating glass header, responsive mobile dialog, footer, theme toggle, polished landing page, dan dashboard empty state.
+- **UI:** Semantic light/dark tokens, self-hosted DM Sans/Playfair Display, floating glass header, responsive mobile dialog, footer, theme toggle, polished landing page, dashboard empty state, serta hero jumbotron dengan foto latar dekoratif dan animasi halus.
+- **Motion:** Library `motion` (framer-motion) via `LazyMotion`/`domAnimation` dengan komponen `m`. Detail: parallax gambar hero, stagger masuk, garis radar berputar lambat, scroll reveal per seksi, dan indikator scroll. Semua animasi non-esensial dinonaktifkan pada `prefers-reduced-motion: reduce`.
 - **Komponen:** Button, Card, Badge, Dialog, Input, Select, serta Loading/Empty/Error StatusState tersedia sebagai modul reusable.
 - **Tema:** `system` menjadi default; `light`, `dark`, dan `system` tersimpan aman di `siaga.theme`. Perubahan tema OS diikuti, meta `theme-color` disesuaikan, dan kegagalan storage tidak merusak UI.
 - **Routing:** `/`, `/dashboard`, `/disasters/:id`, 404, hash navigation, dan scroll restoration tersedia. Dashboard/detail masih menunjukkan data belum tersedia; tidak ada metrik atau peta palsu.
-- **Aksesibilitas implementasi:** Semantic landmarks/headings, skip link, focus indicators, touch targets, Radix focus management, Escape-to-close, reduced motion, dan label simulasi. Audit manual lintas browser/screen reader tetap masuk Fase 5.
-- **Kualitas:** Lint dan strict type-check lulus; 9 tests mencakup routes, mobile navigation, keyboard dismissal, theme persistence/validation, storage failure, dan perubahan tema OS. Production build dan dev-server HTTP smoke test lulus; npm audit 0 vulnerability.
+- **Aksesibilitas implementasi:** Semantic landmarks/headings, skip link, focus indicators, touch targets, Radix focus management, Escape-to-close, reduced motion, alt kosong pada foto dekoratif, dan label simulasi. Audit manual lintas browser/screen reader tetap masuk Fase 5.
+- **Kualitas:** Lint dan strict type-check lulus; 9 unit tests (routes, navigasi mobile, keyboard dismissal, theme persistence/validation, storage failure, perubahan tema OS) dan 6 Playwright e2e tests (hero image load, animasi visible, reduced motion, scroll reveal, dark mode, 320 px tanpa overflow) lulus. Production build dan dev-server HTTP smoke test lulus; npm audit 0 vulnerability.
+- **Aset:** `public/images/hero-unsplash.webp` (foto Unsplash `photo-1581059686229-de26e6ae5dc4`, dekoratif, disimpan lokal).
+- **Bundle:** `motion` dan `leaflet` dipisah lewat `manualChunks` Vite; bundle utama ±404 kB dan chunk motion 106 kB, tanpa peringatan ukuran chunk.
 - **Penyimpanan:** Adapter tema localStorage sudah digunakan. Dexie/Leaflet baru dependency; database, fixture, scoring, filter persistence, vote, dan campaign belum diimplementasikan.
 - **Batasan:** Client-only, tanpa live AI/backend/payment. Font disajikan lokal; aplikasi belum memiliki service worker/PWA offline setelah kunjungan pertama.
 

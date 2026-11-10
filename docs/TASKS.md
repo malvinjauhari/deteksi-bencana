@@ -21,7 +21,8 @@
 - [x] Buat floating navigation, footer, mobile menu berbasis dialog, dan theme toggle.
 - [x] Tambahkan router: `/`, `/dashboard`, `/disasters/:id`, not-found, hash scroll, dan scroll restoration.
 - [x] Bangun landing page: hero, key features, alur, dan batasan simulasi.
-- [x] Sediakan landmark, heading, focus state, keyboard dialog, reduced motion, dan touch targets pada komponen shell.
+- [x] Tambahkan hero jumbotron dengan foto latar dekoratif lokal dan animasi halus (parallax, stagger, radar, scroll reveal).
+- [x] Pastikan landmark, heading, focus state, keyboard, dan reduced motion.
 
 ## Fase 2 — Local Data & Scoring
 

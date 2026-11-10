@@ -33,7 +33,10 @@ Berdasarkan referensi visual dari `image_e3b45e.jpg` dan pendekatan desain minim
 
 ## 6. Komponen & Status Sistem
 
-* **Landing:** hero, key features, alur kerja, dan CTA menuju dashboard.
+* **Landing:** hero dengan foto latar dekoratif, key features, alur kerja, dan CTA menuju dashboard.
+* **Hero (jumbotron):** tinggi minimal `44rem`/`48rem`, foto latar dengan overlay gradien gelap berlapis, headline serif putih, dua CTA, dan pratinjau konsep ber-glass.
+* **Motion:** animasi masuk berjenjang (stagger), parallax gambar halus saat scroll, garis radar berputar lambat, scroll reveal per seksi, dan indikatorscroll. Semua non-esensial.
+* **Motion Chart:** animasi dekoratif memakai `motion` (framer-motion) melalui `LazyMotion`/`domAnimation` agar runtime di-code-split; komponen `m` dipakai di dalam `MotionProvider`.
 * **Dashboard:** summary cards, filter/search, disaster feed, dan peta. Pada mobile, feed dan peta tidak saling menutupi.
 * **Disaster Card:** jenis, lokasi, waktu, skor/severity, kelengkapan data, status campaign, dan aksi detail.
 * **Score Breakdown:** nilai dan bobot tiap faktor; tampilkan **Skor Sementara** bila data tidak lengkap dan **Belum Dinilai** bila skor `null`.
@@ -47,6 +50,8 @@ Berdasarkan referensi visual dari `image_e3b45e.jpg` dan pendekatan desain minim
 * Gunakan landmark, satu `h1` per halaman, struktur heading berurutan, label form, dan semantic buttons/links.
 * Semua fungsi dapat digunakan dengan keyboard; dialog memiliki focus management dan navigasi mobile memiliki accessible name.
 * Teks normal menargetkan contrast WCAG AA 4.5:1; komponen/focus indicator minimal 3:1.
+* Foto hero bersifat dekoratif (`alt=""`); informasi utama tetap tersedia sebagai teks. Overlay gelap menjaga contrast teks putih di atas foto.
+* `prefers-reduced-motion: reduce` menonaktifkan parallax, rotasi radar, stagger, dan animasi berulang; konten tetap tampil pada kondisi akhir (`opacity: 1`).
 * Marker peta memiliki padanan informasi dalam daftar teks; koordinat dapat dibaca tanpa peta.
 * Tema mengikuti preferensi sistem secara default dan pilihan pengguna disimpan di localStorage.
 * Bahasa utama UI adalah Bahasa Indonesia yang ringkas; istilah teknis diberi konteks dan tidak membuat klaim prediksi/peringatan resmi.
@@ -58,5 +63,7 @@ Berdasarkan referensi visual dari `image_e3b45e.jpg` dan pendekatan desain minim
 - [x] Focus indicators, keyboard dialog/Escape, reduced motion, dan touch targets tersedia pada komponen Fase 1.
 - [x] Loading/empty/error component dan safe theme-storage fallback tersedia; offline/PWA serta IndexedDB-unavailable state diimplementasikan pada fase terkait.
 - [x] Landing/dashboard memberi label simulasi dan tidak mengklaim analisis AI atau data langsung.
+- [x] Foto hero dekoratif memakai `alt=""`, dengan overlay gelap yang menjaga contrast teks.
+- [x] `prefers-reduced-motion` menonaktifkan animasi dekoratif tanpa menyembunyikan konten.
 - [x] Tidak ada elemen donasi, payment, live AI, atau verifikasi identitas nyata.
 - [ ] Audit manual responsif 320 px/tablet/desktop, contrast, dan screen reader pada Fase 5.

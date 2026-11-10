@@ -29,9 +29,14 @@ npm run test:run   # Vitest, satu kali
 npm run build      # Type-check + production build
 npm run check      # Seluruh validasi di atas
 npm run preview    # Pratinjau hasil build
+npm run test:e2e   # Playwright (butuh `npx playwright install chromium`)
 ```
 
-CI GitHub Actions menjalankan install, lint, type-check, test, dan build untuk `main` serta pull request.
+CI GitHub Actions menjalankan install, lint, type-check, test, build, dan e2e untuk `main` serta pull request.
+
+## Aset Gambar
+
+`public/images/hero-unsplash.webp` adalah foto Unsplash (`photo-1581059686229-de26e6ae5dc4`) yang dioptimalkan menjadi WebP dan disimpan lokal. Foto bersifat dekoratif (`alt=""`) dan tidak menyatakan lokasi atau kejadian nyata.
 
 ## Batasan MVP
 

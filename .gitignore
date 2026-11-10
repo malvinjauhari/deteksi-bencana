@@ -1,6 +1,10 @@
 node_modules/
 dist/
 coverage/
+e2e/screenshots/
+e2e/.playwright/
+test-results/
+playwright-report/
 *.local
 .env
 .env.*
