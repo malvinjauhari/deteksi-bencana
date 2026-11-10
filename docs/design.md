@@ -24,7 +24,38 @@ Berdasarkan referensi visual dari `image_e3b45e.jpg` dan pendekatan desain minim
     *   **Waspada (Sedang):** Kuning/Oranye hangat (*Amber*).
     *   **Informasi (Rendah):** Biru pastel atau hijau redup (*Slate Blue / Emerald*).
 
-## 5. Implementasi Teknis (TailwindCSS - Rekomendasi)
-*   **Glassmorphism:** `backdrop-blur-md bg-white/50` (atau variasi opasitas yang sesuai).
-*   **Pill Buttons:** `rounded-full bg-black text-white shadow-lg`.
-*   **Serif Fonts:** Konfigurasi `font-serif` di Tailwind dengan font pilihan (misal: Playfair Display).
+## 5. Implementasi Teknis (TailwindCSS)
+*   **Glassmorphism:** `backdrop-blur-md bg-white/50` atau varian dark dengan contrast yang lolos; sediakan fallback opaque bila blur tidak didukung.
+*   **Pill Buttons:** `rounded-full bg-slate-900 text-white shadow-lg` dengan hover, active, disabled, dan `focus-visible` yang jelas.
+*   **Serif Fonts:** gunakan Playfair Display untuk heading dan Inter untuk body/UI, dengan system-font fallback dan tanpa blocking render.
+*   **Layout:** mobile-first, container konsisten, target sentuh minimal 44×44 px, dan tanpa horizontal overflow pada lebar 320 px.
+*   **Motion:** transisi singkat dan fungsional; hormati `prefers-reduced-motion`.
+
+## 6. Komponen & Status Sistem
+
+* **Landing:** hero, key features, alur kerja, dan CTA menuju dashboard.
+* **Dashboard:** summary cards, filter/search, disaster feed, dan peta. Pada mobile, feed dan peta tidak saling menutupi.
+* **Disaster Card:** jenis, lokasi, waktu, skor/severity, kelengkapan data, status campaign, dan aksi detail.
+* **Score Breakdown:** nilai dan bobot tiap faktor; tampilkan **Skor Sementara** bila data tidak lengkap dan **Belum Dinilai** bila skor `null`.
+* **Voting Panel:** label **Mode Demo**, profil aktif, bobot, total bobot, dan status vote. Warna bukan satu-satunya penyampai status.
+* **Campaign:** informasi mitigasi saja; tidak ada CTA donasi atau pembayaran.
+* **System States:** loading, empty, error, storage unavailable, map/tile failure, dan reset confirmation harus dirancang sejak awal.
+* **Simulation Notice:** badge/banner **Data Simulasi** tampil pada dashboard/detail; jangan gunakan label Live, AI Analysis, atau sumber resmi untuk fixture.
+
+## 7. Accessibility & Content
+
+* Gunakan landmark, satu `h1` per halaman, struktur heading berurutan, label form, dan semantic buttons/links.
+* Semua fungsi dapat digunakan dengan keyboard; dialog memiliki focus management dan navigasi mobile memiliki accessible name.
+* Teks normal menargetkan contrast WCAG AA 4.5:1; komponen/focus indicator minimal 3:1.
+* Marker peta memiliki padanan informasi dalam daftar teks; koordinat dapat dibaca tanpa peta.
+* Tema mengikuti preferensi sistem secara default dan pilihan pengguna disimpan di localStorage.
+* Bahasa utama UI adalah Bahasa Indonesia yang ringkas; istilah teknis diberi konteks dan tidak membuat klaim prediksi/peringatan resmi.
+
+## 8. Acceptance Checklist
+
+- [ ] Responsif pada 320 px, tablet, dan desktop tanpa kehilangan fungsi.
+- [ ] Light/dark mode konsisten dan contrast diperiksa.
+- [ ] Focus, keyboard, reduced motion, dan touch target tervalidasi.
+- [ ] Loading/empty/error/offline/storage states tersedia.
+- [ ] Data simulasi dan analisis otomatis diberi label akurat.
+- [ ] Tidak ada elemen donasi, payment, live AI, atau verifikasi identitas nyata.

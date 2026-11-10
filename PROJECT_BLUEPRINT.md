@@ -1,125 +1,156 @@
 # Project Documentation & Blueprint: SiagaNusantara
 
-**Nama Platform:** SiagaNusantara (Sistem Analisis & Mitigasi Bencana Berbasis AI)
-**Tujuan Utama:** Mempercepat mitigasi dan penanggulangan bencana dengan memangkas waktu dari terjadinya bencana hingga munculnya *campaign* tanggap darurat, menggunakan analisis AI untuk skoring urgensi dan sistem *voting* berbasis komunitas (Human-in-the-loop) untuk validasi akhir.
+**Nama Platform:** SiagaNusantara (Sistem Analisis & Mitigasi Bencana)
+**Status:** Perencanaan MVP client-side; belum ada implementasi aplikasi.
+**Tujuan:** Mendemonstrasikan alur pemantauan bencana, perhitungan urgensi, validasi komunitas, dan pembentukan campaign mitigasi dalam satu perangkat.
+
+> **Batasan penting:** MVP menggunakan data simulasi lokal. Aplikasi bukan sistem peringatan dini, tidak terhubung ke AI langsung, tidak menyediakan verifikasi identitas nyata, dan tidak memproses donasi.
 
 ---
 
-## 1. Definisi Konsep & Non-Teknis
+## 1. Konsep & Ruang Lingkup
 
-### A. Urgensi Sistem & Jeda Waktu (SLA Mitigasi)
-Sistem ini memecahkan masalah *delay* informasi. Alur jeda waktunya:
-1. **Kejadian Bencana (T=0)**
-2. **Penarikan Data API (T+1 hingga T+5 Menit):** Sistem otomatis menarik data dari BMKG/NASA.
-3. **Analisis AI (T+6 Menit):** AI menghitung *Urgency Score* dan menyusun narasi dampak komprehensif.
-4. **Voting & Validasi (T+10 hingga T+30 Menit):** *Alert* dipublikasikan ke *dashboard*. Validator manusia melakukan *voting*.
-5. **Campaign/Tindakan Aktif (T+30 Menit):** Bencana dengan skor *vote* tertinggi otomatis dinaikkan menjadi *Campaign Tanggap Darurat*.
+### Alur MVP
+1. Data simulasi bencana dimasukkan ke IndexedDB saat aplikasi pertama dijalankan.
+2. Mesin aturan lokal menghitung `urgency_score` dan membuat analisis berbasis template.
+3. Dashboard menampilkan ringkasan, peta, dan feed yang diurutkan berdasarkan urgensi.
+4. Pengguna memilih profil demo untuk mensimulasikan validasi berbobot.
+5. Event yang memenuhi ambang validasi berubah menjadi campaign mitigasi.
+6. Data dapat diekspor sebagai JSON atau direset ke kondisi awal.
 
-### B. Lapisan Masyarakat untuk Sistem *Voting*
-Keputusan (*decision*) tetap berada di tangan manusia. Lapisan masyarakat yang memiliki hak *vote* (Validator):
-1. **Pemerintah/Otoritas Lokal:** BPBD atau lembaga terkait (Bobot vote: Tinggi).
-2. **NGO & Relawan Terverifikasi:** PMI, Basarnas, organisasi kemanusiaan lokal (Bobot vote: Sedang).
-3. **Tokoh Masyarakat/Warga Lokal Terverifikasi:** Warga di radius 50km dari titik bencana yang akunnya sudah diverifikasi menggunakan KTP/Sistem *Civic* (Bobot vote: Standar).
+Semua perubahan hanya tersimpan pada browser/perangkat tersebut. Tidak ada sinkronisasi antarpengguna atau antarperangkat.
+
+### Peran Demo
+1. **Pemerintah/Otoritas:** bobot validasi 3.
+2. **NGO/Relawan:** bobot validasi 2.
+3. **Warga Lokal:** bobot validasi 1.
+4. **Awam:** dapat melihat dashboard tanpa hak validasi.
+
+Pemilihan peran adalah fitur demonstrasi, bukan autentikasi atau verifikasi identitas. Jangan memasukkan KTP atau data pribadi sensitif.
 
 ---
 
-## 2. Parameter Analisis AI & Pipeline (Teknis)
+## 2. Mesin Analisis Lokal
 
-Analisis AI tidak menggunakan logika statis (`if korban > 100`), melainkan menggunakan **Weighted Scoring Model** (Skala 0-100).
+Analisis menggunakan **Weighted Scoring Model** deterministik, bukan LLM atau AI langsung.
 
-### A. Parameter & Bobot Kalkulasi (*Urgency Score*)
-1. **Jenis & Skala Bencana (Bobot 25%):** Magnitudo gempa, luas area kebakaran (NASA FIRMS), kedalaman banjir.
-2. **Kepadatan Penduduk di Lokasi (Bobot 25%):** AI melakukan *cross-reference* koordinat bencana dengan data demografi BPS/OpenStreetMap. Bencana di area padat = skor eksponensial.
-3. **Estimasi Dampak Infrastruktur (Bobot 20%):** Kedekatan titik bencana dengan fasilitas vital (RS, jalan utama, pembangkit listrik).
-4. **Kondisi Cuaca Susulan (Bobot 15%):** Data curah hujan/angin susulan (nowcast BMKG) yang bisa memperparah kondisi.
-5. **Estimasi Korban & Laporan Awal (Bobot 15%):** Data awal yang masuk dari media sosial atau laporan komunitas lokal.
+| Parameter | Bobot |
+|---|---:|
+| Jenis dan skala bencana | 25% |
+| Kepadatan penduduk | 25% |
+| Dampak terhadap fasilitas vital | 20% |
+| Kondisi cuaca susulan | 15% |
+| Laporan awal komunitas | 15% |
 
-### B. Pipeline AI
-1. **Data Ingestion Layer:** `cron-job` menarik data dari API BMKG, BNPB, dan NASA FIRMS setiap 5 menit.
-2. **Preprocessing:** Standardisasi format koordinat (Lat/Long) dan waktu (UTC ke WIB).
-3. **Inference Engine (AI):** Memasukkan kelima parameter di atas ke model AI (bisa menggunakan integrasi LLM/Gemini API berbalut prompt terstruktur JSON atau model regresi kustom).
-4. **Output Generation:** 
-   - `urgency_score`: Integer 0-100.
-   - `human_readable_analysis`: Paragraf ramah pengguna.
-5. **Database Sink:** Menyimpan hasil ke Firestore/PostgreSQL, memicu WebSocket untuk *real-time update* di *dashboard* FE.
+Setiap faktor dinormalisasi ke skala 0–100. Skor akhir adalah jumlah `nilai_faktor × bobot`, dibulatkan menjadi integer 0–100. Faktor yang tidak tersedia tidak boleh direkayasa; skor dan tingkat kelengkapan data ditampilkan sesuai kontrak di `docs/DISASTER.md`.
+
+**Klasifikasi:** 0–39 `rendah`, 40–69 `waspada`, 70–100 `kritis`.
+
+Narasi dibuat dari template berdasarkan jenis bencana dan faktor dominan. UI wajib menggunakan label **Analisis Otomatis** atau **Simulasi Skor Urgensi**, bukan klaim analisis AI.
 
 ---
 
 ## 3. Fitur Utama & UI/UX
 
-*   **Styling:** Minimalis, Elegan, Clean (TailwindCSS, Radix UI/shadcn, glassmorphism).
-*   **Auth:** Login via Email (tersimpan di `localStorage` / Context untuk MVP).
-*   **Interactive Map (Peta Visual):** Integrasi Leaflet/Mapbox. Render heatmap NASA atau episentrum BMKG.
-*   **Disaster Feed & Voting Card:** Daftar bencana diurutkan berdasarkan *Urgency Score*. Tombol *Upvote/Validate* untuk user.
-*   **User-Friendly Analysis Panel:** Bahasa teknis diterjemahkan otomatis oleh AI menjadi indikator visual (Merah/Kuning/Hijau).
+- **Landing page:** hero, fitur, alur kerja, sumber data simulasi, dan batasan sistem.
+- **Dashboard:** metrik ringkas, filter, feed, status kelengkapan data, dan waktu pembaruan lokal.
+- **Peta interaktif:** Leaflet + OpenStreetMap dengan marker berdasarkan koordinat.
+- **Detail bencana:** skor, faktor pembentuk skor, narasi template, lokasi, dan status.
+- **Voting lokal:** satu suara per profil demo per bencana, disimpan di IndexedDB.
+- **Campaign mitigasi:** dibentuk oleh ambang voting lokal; hanya berisi informasi tindakan.
+- **Preferensi:** tema dan filter ringan di `localStorage`.
+- **Portabilitas:** ekspor JSON dan reset data demo.
+- **Desain:** minimalis, elegan, responsif, glassmorphism secukupnya, serta dark/light mode.
+
+Tidak ada checkout, QRIS, payment gateway, webhook pembayaran, atau pencatatan transaksi donasi.
 
 ---
 
 ## 4. Arsitektur Kode Modular
 
-### Frontend (React/Next.js/Vite)
+**Stack:** React + Vite + TypeScript, Tailwind CSS, shadcn/ui/Radix, Leaflet, dan Dexie sebagai wrapper IndexedDB. Tidak ada backend untuk MVP.
+
 ```text
 src/
-├── components/            # Komponen UI (Button, Card, MapVisualizer, UrgencyBadge)
-├── config/                # Firebase, Mapbox/Leaflet tokens
-├── features/              # Modul berbasis domain
-│   ├── auth/              # Flow login, Role Context (Awam vs Validator)
-│   ├── dashboard/         # Layout utama, summary metrik keseluruhan
-│   ├── disaster-map/      # Logic peta interaktif, render titik koordinat
-│   ├── feed-analysis/     # List bencana, kartu analisis AI ramah pengguna
-│   ├── voting/            # Mekanisme upvote/validasi dari masyarakat
-│   └── public/            # Landing page minimalis
-├── lib/                   # Utils (format-date, urgency-color-mapper)
-├── services/              # API Clients
-│   ├── api-client.ts      # Axios/Fetch interceptors ke Backend kita
-│   └── local-storage.ts   # Handler JWT/Session statis
-├── types/                 # Interface (DisasterEvent, UrgencyScore, UserRole)
-├── App.tsx                # Main Router
-└── main.tsx               
+├── app/                    # Router, providers, dan layout aplikasi
+├── components/             # Komponen UI generik
+│   ├── layout/
+│   └── ui/
+├── config/                 # Konfigurasi aplikasi dan environment
+├── features/
+│   ├── auth/               # Profil dan sesi demo lokal
+│   ├── campaigns/          # Status campaign dan informasi mitigasi
+│   ├── dashboard/          # Metrik dan layout dashboard
+│   ├── disaster-map/       # Peta dan marker
+│   ├── disasters/          # Feed, filter, dan detail
+│   ├── scoring/            # Kalkulasi skor dan template analisis
+│   ├── settings/           # Tema, ekspor, dan reset data
+│   └── voting/             # Validasi lokal berbobot
+├── lib/
+│   ├── db/                 # Dexie schema, migrations, repositories, seed
+│   ├── storage/            # Adapter localStorage yang aman
+│   └── utils/
+├── pages/                  # Landing, Dashboard, Detail, NotFound
+├── test/                   # Setup dan utilitas pengujian
+├── types/                  # Kontrak TypeScript bersama
+├── App.tsx
+└── main.tsx
 ```
 
-### Backend (Node.js/Express/Hono - Modular)
-```text
-server/
-├── app.ts                 # Entry point, middleware, mount routes
-├── config/                # ENV loader
-├── controllers/           # Logika bisnis per domain
-├── services/              # Koneksi ke pihak ke-3
-│   ├── ai-engine.ts       # Logic prompt & kalkulasi bobot ke LLM
-│   ├── bmkg.ts            # Fetch & Parse Gempa/Cuaca (XML/JSON parser)
-│   ├── inarisk.ts         # Fetch data banjir/longsor BNPB
-│   └── nasa-firms.ts      # Fetch data kebakaran hutan
-├── routes/
-│   ├── auth.ts            # Login & JWT generator
-│   ├── disasters.ts       # GET /disasters (termasuk filter & sort by urgency)
-│   ├── maps.ts            # GET /maps/geojson (Data khusus untuk render peta FE)
-│   └── votes.ts           # POST /votes/:id (Mencatat validasi manusia)
-├── jobs/                  
-│   └── fetch-cron.ts      # Scheduler untuk tarik API eksternal tiap 5 menit
-└── api/index.ts           # Export Vercel / Serverless function
-```
+Aturan arsitektur:
+- Komponen UI tidak mengakses IndexedDB secara langsung; gunakan repository/service domain.
+- Kontrak data divalidasi pada batas input seperti seed dan impor JSON.
+- Fixture simulasi diberi label jelas dan tidak ditampilkan sebagai data langsung.
+- Kegagalan penyimpanan atau peta tidak boleh merusak akses ke daftar bencana berbasis teks.
 
 ---
 
-## 5. Task Plan & Roadmap (Project Manager View)
+## 5. Penyimpanan Lokal
 
-**Fase 1: Setup & Integrasi Data Dasar (Minggu 1)**
-- Inisialisasi repo FE & BE dengan struktur modular di atas.
-- Buat UI/UX Wireframe & Design System (Tailwind/Shadcn).
-- BE: Implementasi `cron-job` untuk *pull* data dari BMKG, INARISK, dan NASA FIRMS.
-- BE: Normalisasi semua data dari berbagai API tersebut menjadi satu *schema* JSON standar di database.
+- **IndexedDB (`siaga-nusantara`):** `disasters`, `analyses`, `demoUsers`, `votes`, dan `metadata`.
+- **localStorage:** tema, filter non-sensitif, dan ID sesi demo aktif.
+- **Seed:** idempoten berdasarkan ID fixture yang stabil.
+- **Migrasi:** gunakan versi schema Dexie; jangan menghapus data pengguna tanpa konfirmasi.
+- **Privasi:** jangan simpan KTP, token pembayaran, kredensial, atau data pribadi sensitif.
 
-**Fase 2: AI Pipeline & Peta Interaktif (Minggu 2)**
-- BE: Kembangkan `ai-engine.ts` untuk mengolah data mentah menjadi *Urgency Score* (0-100) dan teks analisis ramah awam.
-- FE: Integrasi Mapbox/Leaflet. Buat komponen peta yang me-*render* koordinat berdasarkan data backend.
-- FE: Buat halaman Dashboard dan *Disaster Feed* yang menampilkan hasil analisis AI.
+Detail schema tersedia di `docs/DATABASE.md` dan `docs/CONTRACT.md`.
 
-**Fase 3: Autentikasi & Sistem Voting (Minggu 3)**
-- FE/BE: Implementasi *Login statis* (Email/Localstorage -> JWT).
-- BE: Buat endpoint untuk sistem *voting* dan perhitungan bobot berdasarkan *role* user.
-- FE: Pasang UI *Voting* di tiap *Disaster Card*.
+---
 
-**Fase 4: Polishing & Deployment (Minggu 4)**
-- Refactor kode, pastikan implementasi *glassmorphism* & *dark/light mode* rapi dan responsif.
-- Testing ketepatan *Urgency Score* AI dari *dummy data* bencana ekstrem vs bencana kecil.
-- Deploy BE (Vercel/Render) & FE (Vercel/Netlify).
+## 6. Task Plan & Roadmap
+
+### Fase 0: Dokumentasi & Fondasi
+- [x] Samakan seluruh dokumentasi dengan arsitektur client-only.
+- Inisialisasi React/Vite/TypeScript dan tooling kualitas.
+- Bangun design tokens, layout, routing, dan komponen dasar.
+
+### Fase 1: Data & Analisis Lokal
+- Implementasikan Dexie schema, repository, migrasi, dan seed idempoten.
+- Implementasikan weighted scoring dan template narasi.
+- Uji bencana ekstrem/kecil, data tidak lengkap, dan batas skor.
+
+### Fase 2: Dashboard & Peta
+- Bangun landing page, metrik, feed, filter, dan detail bencana.
+- Integrasikan Leaflet dengan fallback daftar berbasis teks.
+- Tambahkan responsive, empty, loading, error, dan storage-unavailable states.
+
+### Fase 3: Validasi & Campaign Lokal
+- Implementasikan pemilihan profil demo dan sesi lokal.
+- Implementasikan satu vote unik dan transaksi pembentukan campaign.
+- Tambahkan ekspor JSON dan reset data demo.
+
+### Fase 4: Quality & Deployment
+- Uji persistence, aksesibilitas, responsivitas, dan alur offline.
+- Jalankan lint, type-check, test, dan production build.
+- Deploy sebagai static site ke Vercel/Netlify.
+
+---
+
+## 7. Definition of Done
+
+Setiap unit kerja harus:
+1. Memiliki perilaku dan tampilan sesuai dokumen terkait.
+2. Menyertakan pengujian yang relevan dan tidak menampilkan data simulasi sebagai data nyata.
+3. Lulus lint, type-check, test, dan build yang berlaku.
+4. Memperbarui `docs/CURRENT_STATE.md`, `docs/NOW.md`, `docs/TASKS.md`, dokumen domain terkait, dan `docs/CHANGELOG.md` bila diperlukan.
+5. Dicommit dengan Conventional Commits dan didorong ke `origin/main` setelah validasi lokal.
