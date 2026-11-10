@@ -25,6 +25,8 @@ Fase 1 menambahkan `ThemeProvider` melalui `components/providers/`, safe theme a
 
 Motion memakai `motion` (framer-motion) melalui `MotionProvider` berbasis `LazyMotion`/`domAnimation`; komponen animasi memakai `m` agar runtime di-code-split. `Reveal` di `components/motion/reveal.tsx` menangani scroll reveal generik. Vite memisahkan `motion` dan `leaflet` melalui `manualChunks`.
 
+Fase 2 menambahkan lapisan data lokal. Entry point data tetap `src/main.tsx` → `App.tsx` → `app/router.tsx`, tetapi `app/routes.tsx` mendefinisikan rute dan `app/route-elements.tsx` memuat dashboard serta detail secara lazy. Modul scoring di `src/features/scoring/` tidak bergantung pada IndexedDB maupun DOM. Modul database di `src/lib/db/` (schema, fixture, repository, seed) hanya diakses lewat `src/features/disasters/disaster-service.ts`. Validasi runtime memakai Zod di `src/lib/validation/schemas.ts`. Preferensi dipecah menjadi `lib/storage/storage-keys.ts` (kunci), `theme-preferences.ts` (tanpa Zod), dan `filter-preferences.ts` (dengan Zod) agar bundle landing page tidak menarik pustaka validasi. Vite memisahkan `dexie` dan `zod` melalui `manualChunks`.
+
 ## Aliran Data
 
 ```text
@@ -41,12 +43,13 @@ Votes (transaksi lokal) → status campaign
 
 - Repository menjadi satu-satunya lapisan yang berkomunikasi dengan Dexie.
 - Service domain menangani scoring, voting, campaign, ekspor, dan reset.
+- Data dari IndexedDB diperlakukan sebagai tidak tepercaya dan selalu divalidasi sebelum dipakai.
 - Komponen menerima data melalui hook/query domain dan tidak menyimpan duplikat state persisten.
 - Data simulasi memiliki `is_simulation: true` dan label yang terlihat di UI.
 
 ## Ketahanan & Privasi
 
-- Deteksi IndexedDB tidak tersedia dan tampilkan status penyimpanan gagal/non-persisten.
+- Deteksi IndexedDB tidak tersedia dan tampilkan status penyimpanan gagal/non-persisten. Implementasi saat ini memakai `StorageUnavailableError` pada service, yang diterjemahkan UI menjadi state "penyimpanan lokal tidak tersedia" dan tetap menyediakan tombol coba lagi.
 - Seed dan reset harus idempoten; reset memerlukan konfirmasi.
 - Impor JSON divalidasi sebelum ditulis dan dibatasi pada kontrak aplikasi.
 - Jangan menyimpan data pribadi sensitif, kredensial, atau rahasia API.

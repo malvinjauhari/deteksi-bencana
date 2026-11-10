@@ -16,6 +16,8 @@ export default defineConfig({
         manualChunks: {
           motion: ["motion/react", "framer-motion"],
           leaflet: ["leaflet"],
+          dexie: ["dexie"],
+          zod: ["zod"],
         },
       },
     },

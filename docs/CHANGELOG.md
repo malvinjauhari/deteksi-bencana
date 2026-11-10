@@ -1,6 +1,21 @@
 # Changelog
 
-## [Unreleased] — Hero Motion & Image Backdrop
+## [Unreleased] — Phase 2 Local Data & Deterministic Scoring
+
+- Menambahkan tipe domain lengkap (`Disaster`, `Analysis`, `DemoUser`, `Vote`, `FactorBreakdown`, filter) di `src/types/disaster.ts` beserta validator runtime Zod di `src/lib/validation/schemas.ts`.
+- Menambahkan Dexie database `siaga-nusantara` schema v1 dengan store `disasters`, `analyses`, `demoUsers`, `votes`, dan `metadata`, termasuk index unik `[disaster_id+demo_user_id]`.
+- Menambahkan repository per store di `src/lib/db/repositories/` dan seed idempoten di `src/lib/db/seed.ts` (`seedDatabase`, `isSeeded`, `resetDemoData`) berbasis ID stabil serta metadata versi.
+- Menambahkan enam fixture simulasi bencana (satu data parsial, satu tanpa data) dan empat profil demo berbobot 3/2/1/0 di `src/lib/db/fixtures/`.
+- Menambahkan mesin skor deterministik di `src/features/scoring/` dengan bobot 25/25/20/15/15, renormalisasi bobot saat faktor `null`, `data_completeness`, `is_provisional`, severity 0–39/40–69/70–100, dan narasi template tanpa LLM. Faktor yang hilang tidak pernah direkayasa.
+- Menambahkan generalisasi safe localStorage adapter di `src/lib/storage/safe-storage.ts` serta lapisan preferensi tema dan filter yang tervalidasi.
+- Menambahkan `disaster-service.ts` sebagai satu-satunya pintu masuk data dengan filtering, sorting, dan penerjemahan kegagalan IndexedDB menjadi `StorageUnavailableError`.
+- Dashboard kini menampilkan summary card dari data aktual, pencarian, filter jenis, filter urutan, dan state loading/empty/error/"penyimpanan lokal tidak tersedia".
+- Halaman detail bencana menampilkan ringkasan analisis, rincian lima faktor beserta bobot dan kontribusi, label skor sementara dan belum dinilai, langkah mitigasi, serta koordinat.
+- Rute dashboard dan detail dimuat secara lazy dan Dexie/Zod dipisah lewat `manualChunks`; bundle utama turun ke ±407 kB dan landing page tidak melakukan preload Dexie maupun Zod.
+- Menambahkan 44 unit test baru (scoring, narasi, severity, validator Zod, seed idempoten, adapter storage) dan 7 Playwright e2e tests (seed dashboard, filter, skor sementara, detail, belum dinilai, not-found, screenshot review).
+- Validasi: lint, strict type-check, 53 unit tests, 14 e2e tests, production build tanpa peringatan ukuran chunk, screenshot review dashboard/detail/mobile, dan npm audit 0 vulnerability.
+
+## Hero Motion & Image Backdrop
 
 - Menambahkan hero jumbotron dengan foto Unsplash lokal (WebP, dekoratif `alt=""`) plus overlay gradien berlapis untuk menjaga contrast teks.
 - Menambahkan animasi halus: parallax gambar saat scroll, stagger masuk, garis radar berputar lambat, scroll reveal per seksi, hover lift pada feature card, dan indikatorscroll.

@@ -1,7 +1,7 @@
 import { Monitor, Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/hooks/use-theme";
-import type { Theme } from "@/lib/storage/preferences";
+import type { Theme } from "@/lib/storage/theme-preferences";
 
 const options: Array<{ value: Theme; label: string; icon: typeof Sun }> = [
   { value: "light", label: "Terang", icon: Sun },

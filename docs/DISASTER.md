@@ -53,3 +53,33 @@ provisional_score = round(sum(available_value * weight) / sum(available_weight))
 - Tanpa skor: `belum_dinilai`
 
 Narasi dibuat dengan template yang menyebut jenis bencana, severity, faktor tertinggi yang tersedia, dan keterbatasan data. Tidak ada LLM, AI provider, atau klaim prediksi.
+
+## Implementasi
+
+| Modul | Tanggung jawab |
+|---|---|
+| `src/features/scoring/factor-weights.ts` | Bobot, label faktor, dan label jenis bencana. |
+| `src/features/scoring/severity.ts` | Pemetaan skor ke label severity. |
+| `src/features/scoring/scoring-engine.ts` | `calculateUrgencyScore`, `buildNarrative`, `buildAnalysis`, dan `ENGINE_VERSION`. |
+
+Aturan implementasi:
+
+- Faktor divalidasi Zod sebelum dihitung. Nilai di luar 0–100, `NaN`, atau `Infinity` ditolak dengan galat, bukan diam-diam dikonversi.
+- Pembulatan dilakukan satu kali di akhir. Kontribusi per faktor pada `factor_breakdown` dibulatkan untuk tampilan, sedangkan penjumlahan skor memakai nilai kontribusi sebelum pembulatan agar identik dengan formula di atas.
+- `factor_breakdown` selalu berisi lima entri. Faktor `null` memiliki `contribution: null` dan tidak pernah diberi nilai pengganti.
+- `data_completeness` = persentase bobot yang tersedia, dibulatkan ke integer.
+- `buildAnalysis` menerima waktu acuan opsional agar hasil dapat direproduksi pada test.
+- Modul scoring tidak mengimpor Dexie maupun DOM sehingga tetap deterministik dan dapat diuji secara terpisah dari penyimpanan.
+
+## Batas Skor pada Fixture
+
+| Fixture | Faktor tersedia | Skor | Severity | Kelengkapan |
+|---|---|---:|---|---:|
+| `sim-earthquake-001` | 5/5 | 77 | kritis | 100% |
+| `sim-flood-002` | 5/5 | 77 | kritis | 100% |
+| `sim-forest-fire-003` | 5/5 | 36 | rendah | 100% |
+| `sim-landslide-004` | 4/5 | 53 | waspada | 85% |
+| `sim-flood-005` | 2/5 | 28 | rendah | 40% |
+| `sim-earthquake-006` | 0/5 | `null` | belum_dinilai | 0% |
+
+Nilai di atas adalah hasil deterministik mesin skor terhadap fixture saat ini dan dapat berubah bila fixture atau bobot diubah.

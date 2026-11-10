@@ -4,7 +4,9 @@ Prototipe client-side untuk simulasi analisis urgensi, validasi komunitas, dan m
 
 ## Status
 
-Fase 1 tersedia: fondasi React/Vite/TypeScript, responsive application shell, design system, light/dark/system theme, polished landing page, routing, testing, linting, dan CI. Dashboard/detail masih empty state; IndexedDB, scoring, peta, dan voting belum diimplementasikan.
+Fase 1 dan Fase 2 tersedia: fondasi React/Vite/TypeScript, responsive application shell, design system, light/dark/system theme, landing page beranimasi, serta layer data lokal.
+
+Fase 2 menambahkan Dexie database `siaga-nusantara` (schema v1), fixture simulasi, seed idempoten, dan mesin skor deterministik berbobot 25/25/20/15/15. Dashboard menampilkan ringkasan, pencarian, filter, dan status skor sementara dari data lokal sebenarnya; halaman detail menampilkan rincian faktor dan langkah mitigasi. Peta Leaflet, voting demo, dan campaign belum diimplementasikan.
 
 ## Prasyarat
 
@@ -42,7 +44,8 @@ CI GitHub Actions menjalankan install, lint, type-check, test, build, dan e2e un
 
 - Data simulasi lokal, tanpa ingest BMKG/BNPB/NASA langsung.
 - Analisis deterministik, tanpa live AI/LLM.
-- IndexedDB/Dexie untuk data domain dan localStorage untuk preferensi/sesi demo (dijadwalkan Fase 2).
+- IndexedDB/Dexie untuk data domain dan localStorage untuk preferensi/sesi demo.
+- Faktor yang tidak tersedia tidak direkayasa; skor ditandai sementara dengan persentase kelengkapan data.
 - Voting lokal satu perangkat, bukan autentikasi atau verifikasi identitas nyata.
 - Tanpa backend, payment gateway, donasi, atau sinkronisasi cloud.
 

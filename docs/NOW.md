@@ -1,18 +1,23 @@
 # Now (Current Focus)
 
-## Fase 1 Selesai
+## Fase 2 Selesai
 
-Design tokens, light/dark/system theme, floating navigation, mobile dialog, komponen UI inti, landing page dengan hero jumbotron beranimasi, status states, hash scrolling, 9 unit tests, dan 6 Playwright e2e tests telah tersedia dan tervalidasi. Dashboard/detail tetap empty states yang jujur.
+Layer data lokal dan mesin skor deterministik sudah aktif. Dashboard kini menampilkan enam fixture simulasi yang nyata dari IndexedDB beserta skor, severity, kelengkapan data, dan status skor sementara. Detail Pageable menampilkan rincian faktor dan langkah mitigasi. 53 unit tests, 14 Playwright e2e tests, lint, strict type-check, dan production build lulus.
 
-## Unit Kerja Berikutnya: Fase 2 — Local Data & Scoring
+## Unit Kerja Berikutnya: Fase 3 — Dashboard, Feed & Map (lanjutan)
 
-1. Lengkapi tipe `Analysis`, `DemoUser`, `Vote`, dan validator runtime sesuai `CONTRACT.md`.
-2. Implementasikan Dexie database `siaga-nusantara` schema v1, index unik vote, dan repository.
-3. Buat fixture bencana/profil demo dengan `is_simulation`/`is_demo` serta waktu fixture yang tidak berubah setiap reload.
-4. Implementasikan seed idempoten berbasis ID stabil dan metadata versi.
-5. Implementasikan weighted scoring, missing-factor renormalization, severity, data completeness, dan template narasi.
-6. Unit test batas skor, bobot, pembulatan, invalid/non-finite input, faktor null, severity, dan narasi.
-7. Generalisasi safe localStorage adapter untuk filter/sesi pada fase berikutnya tanpa menduplikasi data domain.
-8. Jalankan `npm run check`, perbarui dokumentasi domain/status, lalu commit dan push.
+1. Integrasikan Leaflet dengan marker yang aksesibel dan padanan daftar teks.
+2. Sediakan fallback daftar teks/koordinat saat peta atau tile gagal dimuat.
+3. Terapkan panel filter yang lebih lengkap (status campaign) dan simpan sebagai preferensi tervalidasi.
+4. Tambahkan tampilan peta pada detail bencana dengan ringkasan koordinat yang terbaca tanpa peta.
+5. Uji halaman dashboard pada 320 px, tablet, dan desktop dengan audit keyboard serta contrast.
+6. Jalankan `npm run check` dan `npx playwright test`, perbarui dokumentasi domain/status, lalu commit dan push.
 
-Jangan menghubungkan kartu dashboard ke angka hardcoded; gunakan repository setelah persistence dan scoring siap.
+## Catatan Arsitektur
+
+- Modul scoring berada di `src/features/scoring/` dan tidak bergantung pada IndexedDB, sehingga tetap deterministik dan dapat diuji terpisah.
+- Modul database berada di `src/lib/db/` (schema, fixture, repository, seed) dan hanya dipakai lewat `src/features/disasters/disaster-service.ts`.
+- Rute dashboard dan detail dimuat secara lazy agar bundle landing page tetap ±407 kB dan tidak menarik Dexie maupun Zod.
+- Preferensi tema dipisah dari preferensi filter agar validasi Zod tidak masuk ke bundle awal.
+- `StorageUnavailableError` menerjemahkan kegagalan IndexedDB (private mode, storage dinonaktifkan) menjadi state "penyimpanan lokal tidak tersedia", bukan state kosong.
+- Seed memakai ID stabil dan metadata versi sehingga aman dijalankan ulang; `occurred_at` diturunkan dari waktu seed agar simulasi selalu tampak baru.

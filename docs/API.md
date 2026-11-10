@@ -6,16 +6,33 @@ Tidak ada HTTP API atau backend internal pada MVP. Integrasi BMKG, INARISK, NASA
 
 Nama berikut adalah kontrak modul TypeScript, bukan endpoint jaringan.
 
-| Modul | Operasi |
+| Modul | Operasi | Status |
+|---|---|---|
+| `disasterRepository` | `list(filters)`, `getById(id)`, `seed(fixtures)` | repository selesai; list/filter di service |
+| `analysisRepository` | `getByDisasterId(id)`, `save(analysis)` | selesai |
+| `scoringEngine` | `calculate(factors)`, `buildNarrative(disaster, result)` | selesai |
+| `demoUserRepository` | `list()`, `getById(id)` | selesai |
+| `votingService` | `castVote({ disasterId, demoUserId })` | Fase 4 |
+| `campaignService` | `evaluate(disasterId)` dalam transaksi voting | Fase 4 |
+| `backupService` | `exportJson()`, `resetDemoData()` | reset selesai, ekspor Fase 4 |
+| `preferencesStorage` | `get/set` tema, filter, dan profil demo aktif | selesai |
+
+## Service Aktif
+
+`src/features/disasters/disaster-service.ts` adalah satu-satunya pintu masuk data yang dipakai UI.
+
+| Fungsi | Perilaku |
 |---|---|
-| `disasterRepository` | `list(filters)`, `getById(id)`, `seed(fixtures)` |
-| `analysisRepository` | `getByDisasterId(id)`, `save(analysis)` |
-| `scoringEngine` | `calculate(factors)`, `buildNarrative(disaster, result)` |
-| `demoUserRepository` | `list()`, `getById(id)` |
-| `votingService` | `castVote({ disasterId, demoUserId })` |
-| `campaignService` | `evaluate(disasterId)` dalam transaksi voting |
-| `backupService` | `exportJson()`, `resetDemoData()` |
-| `preferencesStorage` | `get/set` tema, filter, dan profil demo aktif |
+| `ensureSeeded()` | Menjalankan seed bila metadata versi belum cocok. Idempoten. |
+| `listDisasters(filters)` | Membaca store, memetakan analysis per disaster, lalu menerapkan filter dan sort. |
+| `getDisasterDetail(id)` | Mengembalikan disaster beserta analysis, atau `null` bila ID tidak dikenal. |
+
+Kontrak penting:
+
+- Tidak ada payload jaringan. Semua operasi bersifat lokal dan sinkron terhadap IndexedDB.
+- Analysis dihitung ulang saat dibaca sehingga kenaikan versi mesin skor tidak menampilkan skor lama.
+- Kegagalan storage dipetakan ke `StorageUnavailableError`; kegagalan lain diteruskan apa adanya.
+- `listDisasters` menerima `DisasterFilters` yang sudah divalidasi Zod di lapisan storage.
 
 ## Aturan Operasi
 
@@ -25,6 +42,8 @@ Nama berikut adalah kontrak modul TypeScript, bukan endpoint jaringan.
 - Voting, agregat, dan evaluasi campaign berjalan dalam satu transaksi.
 - Error storage diterjemahkan menjadi state UI yang dapat dipahami, bukan ditelan.
 - Ekspor/reset dan impor masa depan harus memvalidasi versi serta kontrak data.
+- Sorting default dashboard adalah `urgency_desc`; kejadian tanpa skor (`null`) selalu berada di urutan paling akhir pada pengurutan urgensi.
+- Pencarian mencocokkan judul, deskripsi lokasi, dan nama sumber secara case-insensitive.
 
 ## Referensi Eksternal (Tidak Digunakan MVP)
 

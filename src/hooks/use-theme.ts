@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import type { Theme } from "@/lib/storage/preferences";
+import type { Theme } from "@/lib/storage/theme-preferences";
 
 export interface ThemeContextValue {
   theme: Theme;

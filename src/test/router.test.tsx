@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import { describe, expect, it } from "vitest";
-import { routes } from "@/app/router";
+import { routes } from "@/app/routes";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 
 function renderRoute(path: string) {
@@ -22,18 +22,39 @@ describe("application routing and shell", () => {
     expect(screen.getAllByText(/bukan data langsung|bukan sistem peringatan dini resmi/i).length).toBeGreaterThan(0);
   });
 
-  it("renders the dashboard as an explicit empty state", () => {
+  it("renders the dashboard with seeded simulation data", async () => {
     renderRoute("/dashboard");
-    expect(screen.getByRole("heading", { name: /data lokal belum tersedia/i })).toBeInTheDocument();
+    // The dashboard route is lazy-loaded and the seed runs asynchronously.
+    expect(
+      await screen.findByRole("heading", { name: "Dashboard bencana" }, { timeout: 5000 }),
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByText(/Simulasi Gempa Pesisir Jawa Timur/i, undefined, {
+        timeout: 5000,
+      }),
+    ).toBeInTheDocument();
+    expect(screen.getAllByText(/Data simulasi/i).length).toBeGreaterThan(0);
   });
 
-  it("renders disaster detail and not-found routes", () => {
-    const { unmount } = renderRoute("/disasters/sim-001");
-    expect(screen.getByText(/ID sim-001/i)).toBeInTheDocument();
+  it("renders disaster detail and not-found routes", async () => {
+    const { unmount } = renderRoute("/disasters/sim-earthquake-001");
+    expect(
+      await screen.findByRole("heading", { name: /Simulasi Gempa Pesisir Jawa Timur/i }, { timeout: 5000 }),
+    ).toBeInTheDocument();
+    expect(screen.getByText(/Rincian skor/i)).toBeInTheDocument();
+    expect(screen.getByText(/Langkah mitigasi/i)).toBeInTheDocument();
     unmount();
 
     renderRoute("/unknown");
     expect(screen.getByRole("heading", { name: /halaman tidak ditemukan/i })).toBeInTheDocument();
+  });
+
+  it("reports an unknown disaster id as not found", async () => {
+    renderRoute("/disasters/sim-001");
+    expect(
+      await screen.findByRole("heading", { name: /kejadian tidak ditemukan/i }, { timeout: 5000 }),
+    ).toBeInTheDocument();
+    expect(screen.getByText(/ID sim-001/i)).toBeInTheDocument();
   });
 
   it("opens the accessible mobile dialog and navigates", async () => {

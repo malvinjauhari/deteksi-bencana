@@ -1,25 +1,21 @@
-export const THEME_STORAGE_KEY = "siaga.theme";
-export const themes = ["light", "dark", "system"] as const;
-export type Theme = (typeof themes)[number];
-
-export function isTheme(value: unknown): value is Theme {
-  return typeof value === "string" && themes.includes(value as Theme);
-}
-
-export function readTheme(storage?: Storage): Theme {
-  try {
-    const value = (storage ?? window.localStorage).getItem(THEME_STORAGE_KEY);
-    return isTheme(value) ? value : "system";
-  } catch {
-    return "system";
-  }
-}
-
-export function writeTheme(theme: Theme, storage?: Storage): boolean {
-  try {
-    (storage ?? window.localStorage).setItem(THEME_STORAGE_KEY, theme);
-    return true;
-  } catch {
-    return false;
-  }
-}
+/**
+ * Preference storage entry point.
+ *
+ * Theme preferences live in a separate module so the landing page does not
+ * pull the validation library into its initial bundle.
+ */
+export {
+  isTheme,
+  readTheme,
+  themes,
+  writeTheme,
+  type Theme,
+} from "@/lib/storage/theme-preferences";
+export {
+  DEFAULT_FILTERS,
+  readActiveDemoProfileId,
+  readFilters,
+  writeActiveDemoProfileId,
+  writeFilters,
+} from "@/lib/storage/filter-preferences";
+export { STORAGE_KEYS } from "@/lib/storage/storage-keys";

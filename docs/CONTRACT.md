@@ -90,3 +90,18 @@ type Vote = {
 ```
 
 Timestamp menggunakan UTC pada storage dan diformat di lapisan UI. Field yang dulu bernama `votes_count` diganti oleh `total_vote_weight` dan `voter_count` agar jumlah orang berbeda dari total bobot.
+
+## Runtime Validation
+
+Kontrak di atas dijalankan melalui Zod di `src/lib/validation/schemas.ts`. Validator adalah satu-satunya pintu masuk data dari storage maupun form.
+
+| Schema | Menjaga |
+|---|---|
+| `disasterSchema` | Field wajib, rentang koordinat, format ISO 8601, `is_simulation: true`, dan enumerasi type/status. |
+| `analysisSchema` | Skor 0–100 atau `null`, `factor_breakdown` tepat lima entri, `data_completeness` 0–100, dan severity yang valid. |
+| `demoUserSchema` | Role dan bobot 0/1/2/3, serta `is_demo: true`. |
+| `voteSchema` | Bobot vote 1/2/3 dan field wajib. |
+| `disasterFiltersSchema` | Query, type, status, dan urutan yang disimpan di localStorage. |
+| `scoringFactorsSchema` | Faktor 0–100 atau `null`; dipakai mesin skor sebelum menghitung. |
+
+Data dari IndexedDB diperlakukan sebagai tidak tepercaya: nilai yang gagal divalidasi ditolak dan dilaporkan sebagai error, bukan dipaksa menjadi nilai default.

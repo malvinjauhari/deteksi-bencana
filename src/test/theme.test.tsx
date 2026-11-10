@@ -8,9 +8,11 @@ import { ThemeToggle } from "@/components/layout/theme-toggle";
 import {
   isTheme,
   readTheme,
-  THEME_STORAGE_KEY,
+  STORAGE_KEYS,
   writeTheme,
 } from "@/lib/storage/preferences";
+
+const THEME_STORAGE_KEY = STORAGE_KEYS.theme;
 
 function renderTheme() {
   return render(<ThemeProvider><ThemeToggle /></ThemeProvider>);

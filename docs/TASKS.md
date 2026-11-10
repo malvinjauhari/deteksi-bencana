@@ -26,22 +26,22 @@
 
 ## Fase 2 — Local Data & Scoring
 
-- [ ] Buat tipe kontrak dan validator input sesuai `CONTRACT.md`.
-- [ ] Implementasikan Dexie schema v1, index unik vote, dan repository.
-- [ ] Buat fixture bencana serta profil demo berlabel simulasi.
-- [ ] Implementasikan seed idempoten dan metadata schema/seed.
-- [ ] Implementasikan weighted scoring, missing-factor handling, severity, dan template narasi.
-- [ ] Unit test: skor minimum/maksimum, bobot, pembulatan, input invalid, data null, dan narasi.
-- [ ] Tambahkan adapter `localStorage` aman untuk preferensi dan sesi demo.
+- [x] Buat tipe kontrak dan validator input sesuai `CONTRACT.md` (Zod).
+- [x] Implementasikan Dexie schema v1, index unik vote, dan repository.
+- [x] Buat fixture bencana serta profil demo berlabel simulasi.
+- [x] Implementasikan seed idempoten dan metadata schema/seed.
+- [x] Implementasikan weighted scoring, missing-factor handling, severity, dan template narasi.
+- [x] Unit test: skor minimum/maksimum, bobot, pembulatan, input invalid, data null, dan narasi.
+- [x] Tambahkan adapter `localStorage` aman untuk preferensi dan sesi demo.
 
 ## Fase 3 — Dashboard, Feed & Map
 
-- [ ] Buat dashboard summary berdasarkan data lokal aktual.
-- [ ] Buat feed dengan search, filter, sort, loading, empty, dan error states.
-- [ ] Buat detail bencana dengan rincian faktor, kelengkapan data, dan mitigasi.
+- [x] Buat dashboard summary berdasarkan data lokal aktual.
+- [x] Buat feed dengan search, filter, sort, loading, empty, dan error states.
+- [x] Buat detail bencana dengan rincian faktor, kelengkapan data, dan mitigasi.
 - [ ] Integrasikan Leaflet marker dan popover yang aksesibel.
 - [ ] Sediakan fallback daftar teks/koordinat saat peta atau tile gagal.
-- [ ] Persist serta validasi filter/sort pilihan pengguna.
+- [x] Persist serta validasi filter/sort pilihan pengguna.
 
 ## Fase 4 — Demo Voting, Campaign & Data Controls
 

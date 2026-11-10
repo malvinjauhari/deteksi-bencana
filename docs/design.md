@@ -38,8 +38,11 @@ Berdasarkan referensi visual dari `image_e3b45e.jpg` dan pendekatan desain minim
 * **Motion:** animasi masuk berjenjang (stagger), parallax gambar halus saat scroll, garis radar berputar lambat, scroll reveal per seksi, dan indikatorscroll. Semua non-esensial.
 * **Motion Chart:** animasi dekoratif memakai `motion` (framer-motion) melalui `LazyMotion`/`domAnimation` agar runtime di-code-split; komponen `m` dipakai di dalam `MotionProvider`.
 * **Dashboard:** summary cards, filter/search, disaster feed, dan peta. Pada mobile, feed dan peta tidak saling menutupi.
+* **Dashboard (Fase 2):** empat summary card dari data aktual, pencarian, filter jenis, filter urutan, dan grid disaster card. State loading, empty, error, serta "penyimpanan lokal tidak tersedia" memakai StatusState.
+* **Disaster Detail (Fase 2):** badge status, tiga metrik ringkas (skor, kelengkapan, waktu), kartu ringkasan analisis, rincian lima faktor dengan bar kontribusi, dan daftar langkah mitigasi bernomor.
 * **Disaster Card:** jenis, lokasi, waktu, skor/severity, kelengkapan data, status campaign, dan aksi detail.
-* **Score Breakdown:** nilai dan bobot tiap faktor; tampilkan **Skor Sementara** bila data tidak lengkap dan **Belum Dinilai** bila skor `null`.
+* **Score Breakdown:** nilai dan bobot tiap faktor; tampilkan **Skor Sementara** bila data tidak lengkap dan **Belum Dinilai** bila skor `null`. Faktor kosong ditulis "Data tidak tersedia" dan bar kontribusinya kosong, bukan nol.
+* **Severity Badge:** label Kritis/Waspada/Rendah/Belum Nilai memakai warna dan teks, sehingga status tidak bergantung pada warna saja.
 * **Voting Panel:** label **Mode Demo**, profil aktif, bobot, total bobot, dan status vote. Warna bukan satu-satunya penyampai status.
 * **Campaign:** informasi mitigasi saja; tidak ada CTA donasi atau pembayaran.
 * **System States:** loading, empty, error, storage unavailable, map/tile failure, dan reset confirmation harus dirancang sejak awal.
@@ -63,6 +66,8 @@ Berdasarkan referensi visual dari `image_e3b45e.jpg` dan pendekatan desain minim
 - [x] Focus indicators, keyboard dialog/Escape, reduced motion, dan touch targets tersedia pada komponen Fase 1.
 - [x] Loading/empty/error component dan safe theme-storage fallback tersedia; offline/PWA serta IndexedDB-unavailable state diimplementasikan pada fase terkait.
 - [x] Landing/dashboard memberi label simulasi dan tidak mengklaim analisis AI atau data langsung.
+- [x] Dashboard dan detail menandai fixture sebagai data simulasi, menampilkan status skor sementara, dan menyatakan keterbatasan data secara eksplisit.
+- [x] Keadaan "penyimpanan lokal tidak tersedia" dibedakan dari "data kosong" agar pengguna tidak salah mengira data hilang.
 - [x] Foto hero dekoratif memakai `alt=""`, dengan overlay gelap yang menjaga contrast teks.
 - [x] `prefers-reduced-motion` menonaktifkan animasi dekoratif tanpa menyembunyikan konten.
 - [x] Tidak ada elemen donasi, payment, live AI, atau verifikasi identitas nyata.

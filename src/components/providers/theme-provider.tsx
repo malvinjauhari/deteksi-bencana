@@ -4,7 +4,7 @@ import {
   readTheme,
   writeTheme,
   type Theme,
-} from "@/lib/storage/preferences";
+} from "@/lib/storage/theme-preferences";
 
 function getSystemTheme() {
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";

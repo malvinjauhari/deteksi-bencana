@@ -38,3 +38,61 @@ export interface Disaster {
   created_at: string;
   updated_at: string;
 }
+
+export type FactorKey = keyof ScoringFactors;
+
+export interface FactorBreakdown {
+  key: FactorKey;
+  value: ScoreFactor;
+  weight: number;
+  contribution: number | null;
+}
+
+export interface Analysis {
+  disaster_id: string;
+  urgency_score: number | null;
+  severity: Severity;
+  factor_breakdown: FactorBreakdown[];
+  human_readable_analysis: string;
+  data_completeness: number;
+  is_provisional: boolean;
+  calculated_at: string;
+  engine_version: string;
+}
+
+export type VoteWeight = 1 | 2 | 3;
+
+export interface DemoUser {
+  id: string;
+  display_name: string;
+  role: UserRole;
+  weight: 0 | VoteWeight;
+  is_demo: true;
+}
+
+export interface Vote {
+  id: string;
+  disaster_id: string;
+  demo_user_id: string;
+  weight: VoteWeight;
+  created_at: string;
+}
+
+export interface MetadataRecord {
+  key: string;
+  value: string | number | boolean | null;
+  updated_at: string;
+}
+
+export type DisasterSort =
+  | "urgency_desc"
+  | "urgency_asc"
+  | "occurred_desc"
+  | "occurred_asc";
+
+export interface DisasterFilters {
+  query: string;
+  type: DisasterType | "all";
+  status: DisasterStatus | "all";
+  sort: DisasterSort;
+}

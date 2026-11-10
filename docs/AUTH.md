@@ -19,6 +19,19 @@
 | `NGO_RELAWAN` | Melihat data dan simulasi vote | 2 |
 | `OTORITAS` | Melihat data dan simulasi vote | 3 |
 
+## Profil Demo
+
+Empat profil simulasi tersedia di `src/lib/db/fixtures/demo-users.ts` dan diseed bersama fixture bencana. Semua record membawa `is_demo: true`. Nama organisasi sengaja generik agar tidak mengesankan afiliasi instansi nyata.
+
+| ID | Nama tampilan | Role | Bobot |
+|---|---|---|---:|
+| `demo-user-otoritas` | Unit Otoritas Simulasi | `OTORITAS` | 3 |
+| `demo-user-relawan` | Relawan Kemanasan Simulasi | `NGO_RELAWAN` | 2 |
+| `demo-user-warga` | Warga Setempat Simulasi | `WARGA_LOKAL` | 1 |
+| `demo-user-awam` | Pengunjung Simulasi | `AWAM` | 0 |
+
+Pemilihan profil aktif dan aksi voting akan diimplementasikan pada Fase 4. Kunci `siaga.demo.activeProfileId` sudah tersedia di lapisan storage.
+
 ## Batasan Keamanan
 
 - Role dan bobot dapat dimanipulasi melalui developer tools; jangan gunakan sistem ini untuk keputusan nyata.
