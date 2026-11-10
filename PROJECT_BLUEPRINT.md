@@ -1,7 +1,7 @@
 # Project Documentation & Blueprint: SiagaNusantara
 
 **Nama Platform:** SiagaNusantara (Sistem Analisis & Mitigasi Bencana)
-**Status:** Fase 0 fondasi aplikasi selesai; routing awal tersedia dan dashboard/detail masih placeholder.
+**Status:** Fase 1 design system dan application shell selesai; dashboard/detail menampilkan empty state sampai data lokal tersedia.
 **Tujuan:** Mendemonstrasikan alur pemantauan bencana, perhitungan urgensi, validasi komunitas, dan pembentukan campaign mitigasi dalam satu perangkat.
 
 > **Batasan penting:** MVP menggunakan data simulasi lokal. Aplikasi bukan sistem peringatan dini, tidak terhubung ke AI langsung, tidak menyediakan verifikasi identitas nyata, dan tidak memproses donasi.
@@ -123,7 +123,7 @@ Detail schema tersedia di `docs/DATABASE.md` dan `docs/CONTRACT.md`.
 - [x] Samakan seluruh dokumentasi dengan arsitektur client-only.
 - [x] Inisialisasi React/Vite/TypeScript, struktur modular, tooling kualitas, dan CI.
 - [x] Buat app shell sederhana, routing awal, dan komponen Button dasar.
-- [ ] Bangun design tokens lengkap dan polished layout pada Fase 1.
+- [x] Bangun design tokens lengkap, tema, responsive shell, komponen UI inti, dan polished landing pada Fase 1.
 
 ### Fase 1: Data & Analisis Lokal
 - Implementasikan Dexie schema, repository, migrasi, dan seed idempoten.

@@ -9,6 +9,19 @@
     />
     <meta name="theme-color" content="#f8fafc" />
     <title>SiagaNusantara</title>
+    <script>
+      (() => {
+        try {
+          const saved = localStorage.getItem("siaga.theme");
+          const dark = saved === "dark" || (saved !== "light" && matchMedia("(prefers-color-scheme: dark)").matches);
+          document.documentElement.classList.toggle("dark", dark);
+          document.documentElement.style.colorScheme = dark ? "dark" : "light";
+          document.querySelector('meta[name="theme-color"]').content = dark ? "#151a18" : "#f7f8f5";
+        } catch {
+          // ThemeProvider menerapkan fallback setelah aplikasi dimuat.
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

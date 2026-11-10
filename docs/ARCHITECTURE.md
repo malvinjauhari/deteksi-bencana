@@ -21,6 +21,8 @@ Fondasi React/Vite/TypeScript, Tailwind, shadcn/ui config, router, dan folder do
 
 Path alias `@/*` menunjuk ke `src/*` dan dikonfigurasi pada Vite serta TypeScript. Testing memakai Vitest + jsdom; CI menjalankan `npm ci`, lint, type-check, test, dan build dengan Node 22.
 
+Fase 1 menambahkan `ThemeProvider` melalui `components/providers/`, safe theme adapter di `lib/storage/preferences.ts`, Radix Dialog, semantic CSS tokens, dan komponen UI inti. Font DM Sans/Playfair Display dibundel melalui Fontsource sehingga tidak membutuhkan Google Fonts saat runtime. Root layout menangani hash scroll dan scroll restoration. Database dan peta tetap belum diimplementasikan.
+
 ## Aliran Data
 
 ```text

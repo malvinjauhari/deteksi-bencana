@@ -4,7 +4,7 @@ Prototipe client-side untuk simulasi analisis urgensi, validasi komunitas, dan m
 
 ## Status
 
-Fase 0 (fondasi) tersedia: React/Vite/TypeScript, routing awal, komponen dasar, testing, linting, dan CI. Dashboard masih placeholder; IndexedDB, scoring, peta, dan voting belum diimplementasikan.
+Fase 1 tersedia: fondasi React/Vite/TypeScript, responsive application shell, design system, light/dark/system theme, polished landing page, routing, testing, linting, dan CI. Dashboard/detail masih empty state; IndexedDB, scoring, peta, dan voting belum diimplementasikan.
 
 ## Prasyarat
 

@@ -16,12 +16,12 @@
 
 ## Fase 1 — Design System & Application Shell
 
-- [ ] Definisikan color/typography/spacing tokens untuk light/dark mode.
-- [ ] Buat komponen Button, Card, Badge, Dialog, Input/Select, Empty/Error State.
-- [ ] Buat floating navigation, footer, mobile menu, dan theme toggle.
-- [ ] Tambahkan router: `/`, `/dashboard`, `/disasters/:id`, dan not-found.
-- [ ] Bangun landing page: hero, key features, alur, dan batasan simulasi.
-- [ ] Pastikan landmark, heading, focus state, keyboard, dan reduced motion.
+- [x] Definisikan semantic color/typography/radius/shadow tokens untuk light/dark mode.
+- [x] Buat komponen Button, Card, Badge, Dialog, Input/Select, Loading/Empty/Error State.
+- [x] Buat floating navigation, footer, mobile menu berbasis dialog, dan theme toggle.
+- [x] Tambahkan router: `/`, `/dashboard`, `/disasters/:id`, not-found, hash scroll, dan scroll restoration.
+- [x] Bangun landing page: hero, key features, alur, dan batasan simulasi.
+- [x] Sediakan landmark, heading, focus state, keyboard dialog, reduced motion, dan touch targets pada komponen shell.
 
 ## Fase 2 — Local Data & Scoring
 

@@ -2,20 +2,21 @@
 
 **Terakhir diperbarui:** 2026-11-10
 
-- **Fase:** Fase 0 setup aplikasi selesai; siap memulai Fase 1 design system/application shell.
-- **Fondasi:** React 19 + Vite 7 + TypeScript strict, Tailwind CSS 4, konfigurasi shadcn/ui, Radix Slot, React Router, Dexie, dan Leaflet telah dipasang dengan lockfile.
-- **Routing:** `/`, `/dashboard`, `/disasters/:id`, dan fallback 404 tersedia. Dashboard/detail masih placeholder eksplisit, bukan fitur selesai.
-- **Struktur:** Folder domain, layout/UI components, config, pages, types, storage, dan test telah dibuat sesuai blueprint. Modul database/scoring/map belum memiliki implementasi.
-- **UI saat ini:** App shell sederhana, navigasi, skip link, landing awal, dan tombol reusable. Design tokens lengkap, dark mode, mobile menu, serta polished landing belum dikerjakan.
-- **Kualitas:** ESLint, TypeScript project references, Vitest/jsdom, React Testing Library, coverage provider, dan GitHub Actions CI tersedia.
-- **Validasi lokal:** lint lulus, type-check lulus, 3 routing tests lulus, production build lulus, npm audit 0 vulnerability, dan Vite dev server merespons route `/` serta `/dashboard`.
-- **Penyimpanan:** Dexie dan Leaflet terinstal tetapi belum digunakan; belum ada database, fixture, scoring, vote, atau preferensi persisten.
-- **Arsitektur:** SPA client-only tanpa backend, live AI, API bencana langsung, payment gateway, atau sinkronisasi cloud.
+- **Fase:** Fase 1 design system dan application shell selesai; siap memulai Fase 2 local data/scoring.
+- **Fondasi:** React 19 + Vite 7 + TypeScript strict, Tailwind CSS 4, shadcn/ui/Radix, React Router, Dexie, dan Leaflet.
+- **UI:** Semantic light/dark tokens, self-hosted DM Sans/Playfair Display, floating glass header, responsive mobile dialog, footer, theme toggle, polished landing page, dan dashboard empty state.
+- **Komponen:** Button, Card, Badge, Dialog, Input, Select, serta Loading/Empty/Error StatusState tersedia sebagai modul reusable.
+- **Tema:** `system` menjadi default; `light`, `dark`, dan `system` tersimpan aman di `siaga.theme`. Perubahan tema OS diikuti, meta `theme-color` disesuaikan, dan kegagalan storage tidak merusak UI.
+- **Routing:** `/`, `/dashboard`, `/disasters/:id`, 404, hash navigation, dan scroll restoration tersedia. Dashboard/detail masih menunjukkan data belum tersedia; tidak ada metrik atau peta palsu.
+- **Aksesibilitas implementasi:** Semantic landmarks/headings, skip link, focus indicators, touch targets, Radix focus management, Escape-to-close, reduced motion, dan label simulasi. Audit manual lintas browser/screen reader tetap masuk Fase 5.
+- **Kualitas:** Lint dan strict type-check lulus; 9 tests mencakup routes, mobile navigation, keyboard dismissal, theme persistence/validation, storage failure, dan perubahan tema OS. Production build dan dev-server HTTP smoke test lulus; npm audit 0 vulnerability.
+- **Penyimpanan:** Adapter tema localStorage sudah digunakan. Dexie/Leaflet baru dependency; database, fixture, scoring, filter persistence, vote, dan campaign belum diimplementasikan.
+- **Batasan:** Client-only, tanpa live AI/backend/payment. Font disajikan lokal; aplikasi belum memiliki service worker/PWA offline setelah kunjungan pertama.
 
 ## Menjalankan Aplikasi
 
-Lihat `README.md`. Node 20.19+/22.12+, lalu `npm ci` dan `npm run dev`. Gunakan `npm run check` untuk seluruh validasi.
+Node 20.19+/22.12+, `npm ci`, lalu `npm run dev`. Jalankan `npm run check` untuk lint, type-check, tests, dan build.
 
 ## Langkah Berikutnya
 
-Fase 1: design tokens light/dark, komponen UI inti, responsive floating navigation/mobile menu/theme toggle, polished landing, dan pengujian aksesibilitas shell.
+Fase 2: kontrak dan validator runtime, Dexie schema v1, fixture simulasi, seed idempoten, weighted scoring/narasi, unit tests, dan generalisasi safe localStorage adapter.

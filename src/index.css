@@ -1,26 +1,118 @@
+@import "@fontsource/dm-sans/latin-400.css";
+@import "@fontsource/dm-sans/latin-500.css";
+@import "@fontsource/dm-sans/latin-600.css";
+@import "@fontsource/dm-sans/latin-700.css";
+@import "@fontsource/playfair-display/latin-600.css";
+@import "@fontsource/playfair-display/latin-700.css";
 @import "tailwindcss";
 
-@theme {
-  --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Playfair Display", Georgia, serif;
-}
+@custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  font-family: var(--font-sans);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
+  --background: #f7f8f5;
+  --surface: #ffffff;
+  --surface-muted: #eef1eb;
+  --foreground: #18211d;
+  --muted-foreground: #59645e;
+  --border: #dce2dc;
+  --primary: #183d32;
+  --primary-hover: #285548;
+  --primary-foreground: #ffffff;
+  --accent: #d9e6d6;
+  --critical: #a43c48;
+  --warning: #946414;
+  --info: #356a60;
+  --shadow-soft: 0 20px 60px rgb(24 61 50 / 0.08);
+  color-scheme: light;
 }
 
-body {
-  margin: 0;
-  min-width: 320px;
+.dark {
+  --background: #151a18;
+  --surface: #1d2421;
+  --surface-muted: #252e2a;
+  --foreground: #edf2ee;
+  --muted-foreground: #b2bdb6;
+  --border: #36423c;
+  --primary: #d7e8d7;
+  --primary-hover: #eef6ed;
+  --primary-foreground: #183d32;
+  --accent: #2c4238;
+  --critical: #f0a3ac;
+  --warning: #e8c377;
+  --info: #9acbbb;
+  --shadow-soft: 0 20px 60px rgb(0 0 0 / 0.2);
+  color-scheme: dark;
+}
+
+@theme inline {
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", Georgia, serif;
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-foreground: var(--foreground);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-critical: var(--critical);
+  --color-warning: var(--warning);
+  --color-info: var(--info);
+  --radius-card: 1.5rem;
+  --shadow-soft: var(--shadow-soft);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    min-width: 320px;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--accent);
+  }
+
+  :focus-visible {
+    outline-color: var(--info);
+  }
+}
+
+@layer utilities {
+  .glass {
+    background: color-mix(in srgb, var(--surface) 86%, transparent);
+    backdrop-filter: blur(16px);
+  }
+
+  @supports not (backdrop-filter: blur(1px)) {
+    .glass {
+      background: var(--surface);
+    }
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   *,
   *::before,
   *::after {
-    scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;

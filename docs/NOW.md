@@ -1,17 +1,18 @@
 # Now (Current Focus)
 
-## Fase 0 Selesai
+## Fase 1 Selesai
 
-Bootstrap aplikasi, dependency, struktur modular, routing awal, tooling, CI, README, dan routing tests telah tersedia serta tervalidasi. Dashboard/detail tetap placeholder.
+Design tokens, light/dark/system theme, floating navigation, mobile dialog, komponen UI inti, landing page, status states, hash scrolling, serta sembilan routing/theme tests telah tersedia dan tervalidasi. Dashboard/detail tetap empty states yang jujur.
 
-## Unit Kerja Berikutnya: Fase 1 — Design System & Application Shell
+## Unit Kerja Berikutnya: Fase 2 — Local Data & Scoring
 
-1. Definisikan semantic color, typography, spacing, radius, dan shadow tokens untuk light/dark mode.
-2. Tambahkan theme provider dengan default sistem, penyimpanan preferensi aman, dan meta theme-color yang sesuai.
-3. Bangun floating header, mobile menu aksesibel, footer, dan theme toggle.
-4. Lengkapi komponen UI inti secara bertahap: Card, Badge, Dialog, Input/Select, Empty/Error State.
-5. Bangun landing page lengkap berdasarkan `design.md`: hero, key features, alur kerja, batasan simulasi, dan CTA.
-6. Tambahkan/tingkatkan tests untuk navigasi, theme preference, keyboard/focus, dan routes.
-7. Jalankan `npm run check`, audit tampilan responsif, lalu sinkronkan dokumentasi.
+1. Lengkapi tipe `Analysis`, `DemoUser`, `Vote`, dan validator runtime sesuai `CONTRACT.md`.
+2. Implementasikan Dexie database `siaga-nusantara` schema v1, index unik vote, dan repository.
+3. Buat fixture bencana/profil demo dengan `is_simulation`/`is_demo` serta waktu fixture yang tidak berubah setiap reload.
+4. Implementasikan seed idempoten berbasis ID stabil dan metadata versi.
+5. Implementasikan weighted scoring, missing-factor renormalization, severity, data completeness, dan template narasi.
+6. Unit test batas skor, bobot, pembulatan, invalid/non-finite input, faktor null, severity, dan narasi.
+7. Generalisasi safe localStorage adapter untuk filter/sesi pada fase berikutnya tanpa menduplikasi data domain.
+8. Jalankan `npm run check`, perbarui dokumentasi domain/status, lalu commit dan push.
 
-Jangan mengimplementasikan database/scoring sebagai bagian visual palsu; pekerjaan tersebut berada pada Fase 2.
+Jangan menghubungkan kartu dashboard ke angka hardcoded; gunakan repository setelah persistence dan scoring siap.

@@ -53,9 +53,10 @@ Berdasarkan referensi visual dari `image_e3b45e.jpg` dan pendekatan desain minim
 
 ## 8. Acceptance Checklist
 
-- [ ] Responsif pada 320 px, tablet, dan desktop tanpa kehilangan fungsi.
-- [ ] Light/dark mode konsisten dan contrast diperiksa.
-- [ ] Focus, keyboard, reduced motion, dan touch target tervalidasi.
-- [ ] Loading/empty/error/offline/storage states tersedia.
-- [ ] Data simulasi dan analisis otomatis diberi label akurat.
-- [ ] Tidak ada elemen donasi, payment, live AI, atau verifikasi identitas nyata.
+- [x] Shell menggunakan mobile-first layout, mobile dialog, desktop navigation, dan brand compact di bawah 380 px.
+- [x] Semantic light/dark tokens dan tiga mode tema diimplementasikan; audit contrast manual lintas browser tetap bagian Fase 5.
+- [x] Focus indicators, keyboard dialog/Escape, reduced motion, dan touch targets tersedia pada komponen Fase 1.
+- [x] Loading/empty/error component dan safe theme-storage fallback tersedia; offline/PWA serta IndexedDB-unavailable state diimplementasikan pada fase terkait.
+- [x] Landing/dashboard memberi label simulasi dan tidak mengklaim analisis AI atau data langsung.
+- [x] Tidak ada elemen donasi, payment, live AI, atau verifikasi identitas nyata.
+- [ ] Audit manual responsif 320 px/tablet/desktop, contrast, dan screen reader pada Fase 5.

@@ -1,6 +1,17 @@
 # Changelog
 
-## [Unreleased] — Phase 0 Application Setup
+## [Unreleased] — Phase 1 Design System & Shell
+
+- Menambahkan semantic color/radius/shadow tokens, dark mode, DM Sans/Playfair Display self-hosted, dan reduced-motion behavior.
+- Menambahkan ThemeProvider, safe theme storage, system-theme subscription, theme-color sync, dan anti-theme-flash bootstrap.
+- Membangun floating glass header, responsive mobile Radix Dialog, footer, hash scrolling, dan scroll restoration.
+- Menambahkan komponen reusable Button, Card, Badge, Dialog, Input, Select, dan Loading/Empty/Error StatusState.
+- Membangun polished landing page dengan hero, feature cards, alur kerja, batasan simulasi, dan CTA tanpa metrik palsu.
+- Memperbarui dashboard/detail menjadi empty states informatif hingga Fase 2 tersedia.
+- Menambahkan tests mobile navigation, Escape/focus restoration, theme validation/persistence, storage failure, dan OS theme changes; total 9 tests lulus.
+- Validasi lint, strict type-check, production build, HTTP smoke test, dan npm audit 0 vulnerability. Audit manual browser/screen reader tetap dijadwalkan pada Fase 5.
+
+## Phase 0 Application Setup
 
 - Menginisialisasi React 19, Vite 7, TypeScript strict, dan Tailwind CSS 4 dengan lockfile.
 - Menambahkan konfigurasi shadcn/ui, Radix Slot, React Router, Dexie, Leaflet, serta utilitas komponen.
