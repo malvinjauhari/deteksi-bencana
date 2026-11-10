@@ -15,6 +15,12 @@
 
 Struktur kanonis berada di `PROJECT_BLUEPRINT.md`. Pemisahan dilakukan berdasarkan domain (`disasters`, `scoring`, `voting`, `campaigns`, dan lainnya), bukan berdasarkan halaman saja.
 
+## Status Bootstrap
+
+Fondasi React/Vite/TypeScript, Tailwind, shadcn/ui config, router, dan folder domain telah tersedia. Entry point menggunakan `src/main.tsx` → `App.tsx` → `app/router.tsx` → `components/layout/app-shell.tsx`. Route awal tersedia tetapi dashboard/detail masih placeholder. Dexie dan Leaflet sudah menjadi dependency, belum dipakai hingga fase implementasinya.
+
+Path alias `@/*` menunjuk ke `src/*` dan dikonfigurasi pada Vite serta TypeScript. Testing memakai Vitest + jsdom; CI menjalankan `npm ci`, lint, type-check, test, dan build dengan Node 22.
+
 ## Aliran Data
 
 ```text

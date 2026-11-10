@@ -7,11 +7,12 @@
 - [x] Samakan blueprint dengan keputusan client-only, local storage, no live AI, dan no payment.
 - [x] Tetapkan arsitektur React/Vite/TypeScript, Dexie, serta kontrak domain.
 - [x] Dokumentasikan scoring, role demo, voting, campaign, fallback, dan batasan privasi.
-- [ ] Inisialisasi Vite React TypeScript dan `package.json` dengan pinned lockfile.
-- [ ] Tambahkan Tailwind, shadcn/ui/Radix, React Router, Dexie, dan Leaflet.
-- [ ] Tambahkan ESLint, Vitest, React Testing Library, script `lint`, `typecheck`, `test`, dan `build`.
-- [ ] Tambahkan `.gitignore`, `.env.example` bila diperlukan, README setup, dan CI GitHub Actions.
-- [ ] Buat struktur folder modular sesuai `PROJECT_BLUEPRINT.md`.
+- [x] Inisialisasi Vite React TypeScript dan `package.json` dengan lockfile.
+- [x] Tambahkan Tailwind, konfigurasi shadcn/ui + Radix Slot, React Router, Dexie, dan Leaflet.
+- [x] Tambahkan ESLint, Vitest, React Testing Library, script `lint`, `typecheck`, `test`, dan `build`.
+- [x] Tambahkan `.gitignore`, `.env.example`, README setup, dan CI GitHub Actions.
+- [x] Buat struktur folder modular sesuai `PROJECT_BLUEPRINT.md`.
+- [x] Tambahkan router awal `/`, `/dashboard`, `/disasters/:id`, not-found, serta placeholder yang jelas.
 
 ## Fase 1 — Design System & Application Shell
 

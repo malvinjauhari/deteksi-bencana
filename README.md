@@ -1,0 +1,46 @@
+# SiagaNusantara — Deteksi Bencana
+
+Prototipe client-side untuk simulasi analisis urgensi, validasi komunitas, dan mitigasi bencana. **Bukan sistem peringatan dini resmi.**
+
+## Status
+
+Fase 0 (fondasi) tersedia: React/Vite/TypeScript, routing awal, komponen dasar, testing, linting, dan CI. Dashboard masih placeholder; IndexedDB, scoring, peta, dan voting belum diimplementasikan.
+
+## Prasyarat
+
+- Node.js 20.19+ atau 22.12+ (CI menggunakan Node 22).
+- npm 10+.
+
+## Menjalankan Proyek
+
+```bash
+npm ci
+npm run dev
+```
+
+Buka URL yang ditampilkan Vite. Tidak ada API key atau environment variable yang diperlukan; `.env.example` hanya berisi panduan.
+
+## Perintah Kualitas
+
+```bash
+npm run lint       # ESLint
+npm run typecheck  # TypeScript project references
+npm run test:run   # Vitest, satu kali
+npm run build      # Type-check + production build
+npm run check      # Seluruh validasi di atas
+npm run preview    # Pratinjau hasil build
+```
+
+CI GitHub Actions menjalankan install, lint, type-check, test, dan build untuk `main` serta pull request.
+
+## Batasan MVP
+
+- Data simulasi lokal, tanpa ingest BMKG/BNPB/NASA langsung.
+- Analisis deterministik, tanpa live AI/LLM.
+- IndexedDB/Dexie untuk data domain dan localStorage untuk preferensi/sesi demo (dijadwalkan Fase 2).
+- Voting lokal satu perangkat, bukan autentikasi atau verifikasi identitas nyata.
+- Tanpa backend, payment gateway, donasi, atau sinkronisasi cloud.
+
+## Dokumentasi
+
+Mulai dari [`PROJECT_BLUEPRINT.md`](./PROJECT_BLUEPRINT.md), kemudian [`docs/NOW.md`](./docs/NOW.md) untuk pekerjaan berikutnya dan [`docs/TASKS.md`](./docs/TASKS.md) untuk roadmap. Setiap perubahan perilaku harus disertai sinkronisasi dokumentasi terkait.

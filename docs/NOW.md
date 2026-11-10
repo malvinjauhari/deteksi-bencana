@@ -1,13 +1,17 @@
 # Now (Current Focus)
 
-## Unit Kerja Berikutnya: Bootstrap Aplikasi
+## Fase 0 Selesai
 
-1. Inisialisasi React + Vite + TypeScript di root repository.
-2. Tambahkan `.gitignore`, lockfile, script lint/typecheck/test/build, dan konfigurasi CI.
-3. Instal Tailwind, React Router, Dexie, Leaflet, serta dependency UI yang benar-benar dipakai.
-4. Buat struktur `src/app`, `src/components`, `src/features`, `src/lib/db`, `src/pages`, dan `src/types` sesuai blueprint.
-5. Tambahkan router awal dan halaman placeholder yang jelas, tanpa menyiratkan fitur sudah berfungsi.
-6. Tambahkan README berisi prerequisite Node, perintah install/dev/test/build, dan batasan aplikasi.
-7. Jalankan validasi lalu perbarui `CURRENT_STATE.md`, `TASKS.md`, dan `CHANGELOG.md`.
+Bootstrap aplikasi, dependency, struktur modular, routing awal, tooling, CI, README, dan routing tests telah tersedia serta tervalidasi. Dashboard/detail tetap placeholder.
 
-Tidak perlu membuat backend, Firebase, API AI, cron, maupun integrasi pembayaran.
+## Unit Kerja Berikutnya: Fase 1 — Design System & Application Shell
+
+1. Definisikan semantic color, typography, spacing, radius, dan shadow tokens untuk light/dark mode.
+2. Tambahkan theme provider dengan default sistem, penyimpanan preferensi aman, dan meta theme-color yang sesuai.
+3. Bangun floating header, mobile menu aksesibel, footer, dan theme toggle.
+4. Lengkapi komponen UI inti secara bertahap: Card, Badge, Dialog, Input/Select, Empty/Error State.
+5. Bangun landing page lengkap berdasarkan `design.md`: hero, key features, alur kerja, batasan simulasi, dan CTA.
+6. Tambahkan/tingkatkan tests untuk navigasi, theme preference, keyboard/focus, dan routes.
+7. Jalankan `npm run check`, audit tampilan responsif, lalu sinkronkan dokumentasi.
+
+Jangan mengimplementasikan database/scoring sebagai bagian visual palsu; pekerjaan tersebut berada pada Fase 2.
